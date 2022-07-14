@@ -40,7 +40,7 @@ public class Produit {
 	@ManyToMany(mappedBy="produits")
 	private Set<Additif> additifs = new HashSet<>();
 	
-	//allegenes
+	//allergenes
 	@ManyToMany(mappedBy="produits")
 	private Set<Allergene> allergenes = new HashSet<>();
 	
