@@ -14,6 +14,8 @@ public class Additif {
 	
 	@Column
 	private String nom;
+	
+	//produits
 
 	public Additif() {}
 
@@ -22,6 +24,15 @@ public class Additif {
 	 */
 	public Additif(String nom) {
 		this.nom = nom;
+	}
+	
+	public boolean Equals(Additif object) {
+		if(this.nom.equals(object.getNom())) {
+			return true;
+		}
+		else {
+			return false;		
+		}
 	}
 
 	/**

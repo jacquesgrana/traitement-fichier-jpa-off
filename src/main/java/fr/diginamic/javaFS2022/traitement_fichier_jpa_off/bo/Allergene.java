@@ -12,8 +12,10 @@ public class Allergene {
 	@GeneratedValue
 	private Long id;
 	
-	@Column
+	@Column(nullable = false)
 	private String nom;
+	
+	//produits
 
 	public Allergene() {}
 
@@ -22,6 +24,15 @@ public class Allergene {
 	 */
 	public Allergene(String nom) {
 		this.nom = nom;
+	}
+	
+	public boolean Equals(Allergene object) {
+		if(this.nom.equals(object.getNom())) {
+			return true;
+		}
+		else {
+			return false;		
+		}
 	}
 
 	/**

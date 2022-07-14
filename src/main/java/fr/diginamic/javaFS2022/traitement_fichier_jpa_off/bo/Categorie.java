@@ -12,8 +12,10 @@ public class Categorie {
 	@GeneratedValue
 	private Long id;
 	
-	@Column
+	@Column(nullable = false)
 	private String nom;
+	
+	//produits
 
 	public Categorie() {}
 
@@ -22,6 +24,15 @@ public class Categorie {
 	 */
 	public Categorie(String nom) {
 		this.nom = nom;
+	}
+	
+	public boolean Equals(Categorie object) {
+		if(this.nom.equals(object.getNom())) {
+			return true;
+		}
+		else {
+			return false;		
+		}
 	}
 
 	/**

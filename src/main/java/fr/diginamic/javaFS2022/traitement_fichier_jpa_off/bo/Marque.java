@@ -12,8 +12,10 @@ public class Marque {
 	@GeneratedValue
 	private Long id;
 	
-	@Column
+	@Column(nullable = false)
 	private String nom;
+	
+	//produits
 	
 	public Marque() {}
 
@@ -22,6 +24,15 @@ public class Marque {
 	 */
 	public Marque(String nom) {
 		this.nom = nom;
+	}
+	
+	public boolean Equals(Marque object) {
+		if(this.nom.equals(object.getNom())) {
+			return true;
+		}
+		else {
+			return false;		
+		}
 	}
 
 	/**

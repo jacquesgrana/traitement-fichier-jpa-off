@@ -42,9 +42,10 @@ public class Controller {
 				} 
 				catch (IOException e) {
 					System.out.println("Problème sur le chargement du fichier csv : " + e.getMessage());
+					model.setIsDataLoaded(false);
 				}
 				// TODO appels dao des classes pojo pour peupler la bd
-				this.model.setIsDataLoaded(true);
+				//this.model.setIsDataLoaded(true);
 				break;
 			}
 			

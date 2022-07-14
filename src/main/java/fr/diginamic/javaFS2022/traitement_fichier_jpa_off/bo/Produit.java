@@ -13,7 +13,7 @@ public class Produit {
 	@GeneratedValue
 	private Long id;
 	
-	@Column
+	@Column(nullable = false)
 	private String nom;
 	
 	@Enumerated
@@ -32,5 +32,44 @@ public class Produit {
 	//presence huile de palme --> creer enum oui/non
 
 	public Produit() {}
+	
+	public boolean Equals(Produit object) {
+		if(this.nom.equals(object.getNom())) {
+			return true;
+		}
+		else {
+			return false;		
+		}
+	}
+
+	/**
+	 * @return the nom
+	 */
+	public String getNom() {
+		return nom;
+	}
+
+	/**
+	 * @param nom the nom to set
+	 */
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	/**
+	 * @return the grade
+	 */
+	public GradeNutrition getGrade() {
+		return grade;
+	}
+
+	/**
+	 * @param grade the grade to set
+	 */
+	public void setGrade(GradeNutrition grade) {
+		this.grade = grade;
+	}
+	
+	
 
 }
