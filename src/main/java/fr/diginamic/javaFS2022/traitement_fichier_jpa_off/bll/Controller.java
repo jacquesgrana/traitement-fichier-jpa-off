@@ -1,7 +1,11 @@
 package fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bll;
 
+import java.io.IOException;
+import java.util.List;
+
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Model;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.CsvDao;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.DbDao;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.ihm.Vue;
 
 public class Controller {
@@ -30,7 +34,15 @@ public class Controller {
 				break;
 			case '0':
 				CsvDao csvDao = new CsvDao();
-				Boolean isCsvLoaded = csvDao.loadDatasFromCsv();
+				DbDao dbDao = new DbDao();
+				List<String> lines;
+				try {
+					lines = csvDao.generateListFromCsv();
+					model.setIsDataLoaded(dbDao.populateDb(lines));
+				} 
+				catch (IOException e) {
+					System.out.println("Problème sur le chargement du fichier csv : " + e.getMessage());
+				}
 				// TODO appels dao des classes pojo pour peupler la bd
 				this.model.setIsDataLoaded(true);
 				break;
