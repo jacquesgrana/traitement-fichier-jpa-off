@@ -1,9 +1,13 @@
 package fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Marque {
@@ -11,13 +15,16 @@ public class Marque {
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	@Column(nullable = false)
 	private String nom;
-	
-	//produits
-	
-	public Marque() {}
+
+	// produits
+	@OneToMany(mappedBy = "marque")
+	private Set<Produit> produits = new HashSet<>();
+
+	public Marque() {
+	}
 
 	/**
 	 * @param nom
@@ -25,13 +32,12 @@ public class Marque {
 	public Marque(String nom) {
 		this.nom = nom;
 	}
-	
+
 	public boolean Equals(Marque object) {
-		if(this.nom.equals(object.getNom())) {
+		if (this.nom.equals(object.getNom())) {
 			return true;
-		}
-		else {
-			return false;		
+		} else {
+			return false;
 		}
 	}
 
@@ -54,6 +60,20 @@ public class Marque {
 	 */
 	public Long getId() {
 		return id;
+	}
+
+	/**
+	 * @return the produits
+	 */
+	public Set<Produit> getProduits() {
+		return produits;
+	}
+
+	/**
+	 * @param produits the produits to set
+	 */
+	public void setProduits(Set<Produit> produits) {
+		this.produits = produits;
 	}
 
 	@Override

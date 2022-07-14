@@ -1,9 +1,15 @@
 package fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Ingredient {
@@ -16,6 +22,11 @@ public class Ingredient {
 	private String nom;
 	
 	//produits
+	@ManyToMany
+	@JoinTable(name="Possede_Ing",
+	joinColumns= @JoinColumn(name="id_ingredient", referencedColumnName="id"),
+	inverseJoinColumns= @JoinColumn(name="id_produit", referencedColumnName="id"))
+	private Set<Produit> produits = new HashSet<>();
 
 	public Ingredient() {}
 
@@ -26,7 +37,7 @@ public class Ingredient {
 		this.nom = nom;
 	}
 	
-	public boolean Equals(Ingredien object) {
+	public boolean Equals(Ingredient object) {
 		if(this.nom.equals(object.getNom())) {
 			return true;
 		}
@@ -54,6 +65,20 @@ public class Ingredient {
 	 */
 	public Long getId() {
 		return id;
+	}
+
+	/**
+	 * @return the produits
+	 */
+	public Set<Produit> getProduits() {
+		return produits;
+	}
+
+	/**
+	 * @param produits the produits to set
+	 */
+	public void setProduits(Set<Produit> produits) {
+		this.produits = produits;
 	}
 
 	@Override

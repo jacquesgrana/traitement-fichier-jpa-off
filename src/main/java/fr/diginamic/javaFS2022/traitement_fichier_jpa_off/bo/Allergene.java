@@ -1,9 +1,15 @@
 package fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Allergene {
@@ -16,6 +22,11 @@ public class Allergene {
 	private String nom;
 	
 	//produits
+	@ManyToMany
+	@JoinTable(name="Possede_All",
+	joinColumns= @JoinColumn(name="id_allergene", referencedColumnName="id"),
+	inverseJoinColumns= @JoinColumn(name="id_produit", referencedColumnName="id"))
+	private Set<Produit> produits = new HashSet<>();
 
 	public Allergene() {}
 
@@ -54,6 +65,20 @@ public class Allergene {
 	 */
 	public Long getId() {
 		return id;
+	}
+
+	/**
+	 * @return the produits
+	 */
+	public Set<Produit> getProduits() {
+		return produits;
+	}
+
+	/**
+	 * @param produits the produits to set
+	 */
+	public void setProduits(Set<Produit> produits) {
+		this.produits = produits;
 	}
 
 	@Override
