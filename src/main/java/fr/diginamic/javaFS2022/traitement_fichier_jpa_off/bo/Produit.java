@@ -48,8 +48,6 @@ public class Produit {
 
 	public Produit() {}
 	
-	
-	
 	/**
 	 * @param nom
 	 */

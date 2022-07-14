@@ -2,6 +2,7 @@ package fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bll;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
 
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Model;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.CsvDao;
@@ -19,6 +20,7 @@ public class Controller {
 		this.vue = new Vue();
 		this.model.init();
 		this.vue.init();
+		java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.OFF);
 	}
 	
 	public void run() {
