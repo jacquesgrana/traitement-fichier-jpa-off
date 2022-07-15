@@ -35,10 +35,14 @@ public class Marque {
 
 	@Override
 	public  boolean equals(Object o) {
-		Marque marq = (Marque) o;
-		//boolean equals = this.nom.equals(marq.getNom());
-		boolean equals = marq.getNom().equals(this.nom);
-		return equals;
+		if (o.getClass().equals(Marque.class)) {
+			Marque marq = (Marque) o;
+			boolean equals = marq.getNom().equals(this.nom);
+			return equals;
+		}
+		else {
+			return false;
+		}
 	}
 
 	/**

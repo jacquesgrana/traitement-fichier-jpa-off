@@ -41,12 +41,9 @@ public class DbDao {
     	
     	//1e boucle pour peupler Categorie Marque Ingredient Additif Allergene
     	for (String line : lines) {
-    		//System.out.println(line);
     		
     		// Attention avec "|" : double echappement a faire
     		String[] lineDatas = line.split("\\|");
-    		
-    		
     		
     		String catString = lineDatas[0];
     		if(!catString.equals("")) {
@@ -96,15 +93,12 @@ public class DbDao {
 
     		if(lineDatas.length >= 30) {
     			String addString = lineDatas[29];
-        		//System.out.println("add : " + addString);
     			String[] addDatas = addString.split(" - ");
-    			
     			for(int i=0; i<addDatas.length; i++) {
     				if (!addDatas[i].equals("")) {
     					Additif add = new Additif(addDatas[i]);
         				if (!listAdd.contains(add)) {
         					listAdd.add(add);
-        					//System.out.println(addDatas[i]);
         				}
     				}
     				

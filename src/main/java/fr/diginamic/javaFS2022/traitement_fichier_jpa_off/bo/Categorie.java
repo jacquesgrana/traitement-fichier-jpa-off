@@ -34,10 +34,14 @@ public class Categorie {
 	
 	@Override
 	public  boolean equals(Object o) {
-		Categorie cat = (Categorie) o;
-		//boolean equals = this.nom.equals(cat.getNom());
-		boolean equals = cat.getNom().equals(this.nom);
-		return equals;
+		if (o.getClass().equals(Categorie.class)) {
+			Categorie cat = (Categorie) o;
+			boolean equals = cat.getNom().equals(this.nom);
+			return equals;
+		}
+		else {
+			return false;
+		}
 	}
 
 	/**

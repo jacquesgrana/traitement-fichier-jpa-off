@@ -70,12 +70,15 @@ public class Produit {
 		this.marque = marque;
 	}
 
-	public boolean Equals(Produit object) {
-		if(this.nom.equals(object.getNom())) {
-			return true;
+	@Override
+	public  boolean equals(Object o) {
+		if (o.getClass().equals(Produit.class)) {
+			Produit prod = (Produit) o;
+			boolean equals = prod.getNom().equals(this.nom);
+			return equals;
 		}
 		else {
-			return false;		
+			return false;
 		}
 	}
 

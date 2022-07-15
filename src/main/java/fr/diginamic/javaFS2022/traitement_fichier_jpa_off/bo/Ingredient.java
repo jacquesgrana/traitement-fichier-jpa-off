@@ -39,9 +39,14 @@ public class Ingredient {
 	
 	@Override
 	public  boolean equals(Object o) {
-		Ingredient ing = (Ingredient) o;
-		boolean equals = ing.getNom().equals(this.nom);
-		return equals;
+		if (o.getClass().equals(Ingredient.class)) {
+			Ingredient ing = (Ingredient) o;
+			boolean equals = ing.getNom().equals(this.nom);
+			return equals;
+		}
+		else {
+			return false;
+		}
 	}
 
 	/**
