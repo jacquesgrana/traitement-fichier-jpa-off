@@ -33,12 +33,12 @@ public class Marque {
 		this.nom = nom;
 	}
 
-	public boolean Equals(Marque object) {
-		if (this.nom.equals(object.getNom())) {
-			return true;
-		} else {
-			return false;
-		}
+	@Override
+	public  boolean equals(Object o) {
+		Marque marq = (Marque) o;
+		//boolean equals = this.nom.equals(marq.getNom());
+		boolean equals = marq.getNom().equals(this.nom);
+		return equals;
 	}
 
 	/**

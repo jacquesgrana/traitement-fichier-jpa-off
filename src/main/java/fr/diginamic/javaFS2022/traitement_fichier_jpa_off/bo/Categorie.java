@@ -32,13 +32,12 @@ public class Categorie {
 		this.nom = nom;
 	}
 	
-	public boolean Equals(Categorie object) {
-		if(this.nom.equals(object.getNom())) {
-			return true;
-		}
-		else {
-			return false;		
-		}
+	@Override
+	public  boolean equals(Object o) {
+		Categorie cat = (Categorie) o;
+		//boolean equals = this.nom.equals(cat.getNom());
+		boolean equals = cat.getNom().equals(this.nom);
+		return equals;
 	}
 
 	/**
