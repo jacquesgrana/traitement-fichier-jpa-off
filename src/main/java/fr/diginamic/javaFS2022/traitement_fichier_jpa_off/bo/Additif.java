@@ -20,10 +20,6 @@ public class Additif {
 	private String nom;
 	
 	//produits
-	//@ManyToMany
-	//@JoinTable(name="Possede_Add",
-	//joinColumns= @JoinColumn(name="id_additif", referencedColumnName="id"),
-	//inverseJoinColumns= @JoinColumn(name="id_produit", referencedColumnName="id"))
 	@ManyToMany(mappedBy="additifs")
 	private Set<Produit> produits = new HashSet<>();
 

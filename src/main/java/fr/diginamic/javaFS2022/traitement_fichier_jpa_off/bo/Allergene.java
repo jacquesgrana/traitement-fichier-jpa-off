@@ -20,10 +20,6 @@ public class Allergene {
 	private String nom;
 	
 	//produits
-	//@ManyToMany
-	//@JoinTable(name="Possede_All",
-	//joinColumns= @JoinColumn(name="id_allergene", referencedColumnName="id"),
-	//inverseJoinColumns= @JoinColumn(name="id_produit", referencedColumnName="id"))
 	@ManyToMany(mappedBy="allergenes")
 	private Set<Produit> produits = new HashSet<>();
 

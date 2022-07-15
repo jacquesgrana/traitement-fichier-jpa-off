@@ -53,7 +53,7 @@ public class Produit {
 	//allergenes
 	//@ManyToMany(mappedBy="produits")
 	@ManyToMany
-	@JoinTable(name="Possede_Add",
+	@JoinTable(name="Possede_All",
 	joinColumns= @JoinColumn(name="id_produit", referencedColumnName="id"),
 	inverseJoinColumns= @JoinColumn(name="id_allergene", referencedColumnName="id"))
 	private Set<Allergene> allergenes = new HashSet<>();
