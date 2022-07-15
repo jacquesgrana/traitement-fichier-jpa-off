@@ -10,8 +10,10 @@ import javax.persistence.Persistence;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Additif;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Allergene;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Categorie;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.GradeNutrition;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Ingredient;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Marque;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Produit;
 
 public class DbDao {
 	
@@ -20,6 +22,7 @@ public class DbDao {
 	private List<Object> listAdd = new ArrayList<>();
 	private List<Object> listAll = new ArrayList<>();
 	private List<Object> listIng = new ArrayList<>();
+	private List<Object> listProd = new ArrayList<>();
 	
 
 	public DbDao() {}
@@ -38,6 +41,7 @@ public class DbDao {
     	AdditifDao addDao = new AdditifDao();
     	AllergeneDao allDao = new AllergeneDao();
     	IngredientDao ingDao = new IngredientDao();
+    	ProduitDao prodDao = new ProduitDao();
     	
     	//1e boucle pour peupler Categorie Marque Ingredient Additif Allergene
     	for (String line : lines) {
@@ -109,6 +113,9 @@ public class DbDao {
     	}
     	
 		// TODO Traiter les listes pour enlever les doublons
+    	// ajouter appel d'une méthode de cette classe pour chaque liste
+    	
+    	
     	catDao.addListToDb(listCat, em);
     	marqDao.addListToDb(listMarq, em);
     	addDao.addListToDb(listAdd, em);
@@ -116,6 +123,46 @@ public class DbDao {
     	ingDao.addListToDb(listIng, em);
     	
     	//2e boucle pour peupler produit avec appel prep stat pour recuperer les objets de la bd a partir des noms
+    	// boucle sur lines
+    	
+    	for (String line : lines) {
+    		// extraire le nom du produit
+    		String[] lineDatas = line.split("\\|");
+    		
+    		// extraire categorie, marque
+    		
+    		String catString = lineDatas[0];
+    		String marqString = lineDatas[1];
+    		String nomString = lineDatas[2];
+    		String nomGrade = lineDatas[3];
+    		
+    		// creer objet Produit
+    		Produit produit = new Produit(nomString);
+    		// extraire le grade nutriscore et obtenir valeur
+    		GradeNutrition grade = GradeNutrition.getGradeByChar(nomGrade.charAt(0));
+    		//System.out.println("grade : " + grade);
+    		produit.setGrade(grade);
+    		
+    		// chercher objet de la bd categorie et marque
+    		Categorie categorie = catDao.getByName(catString, em);
+    		produit.setCategorie(categorie);
+    		
+    		Marque marque = marqDao.getByName(marqString, em);
+    		produit.setMarque(marque);
+    		
+    		//System.out.println("produit : " + produit);
+    		
+    		// recuperer ingredients
+    			// boucle sur ingredients
+    			// recuperer objet ingredient de la bd
+    			// ajouter ing a set des ingredients de l'objet produit
+    		// idem pour allergenes et additifs
+    		// enregistrer produit dans la liste des produits
+    		listProd.add(produit);
+    		
+    	}
+    		
+    	//prodDao.addListToDb(listProd, em);
     	
     	em.close();
     	emf.close();
@@ -126,6 +173,7 @@ public class DbDao {
 		return "Nb d'éléments récupérés : catégories : " + listCat.size() 
 		+ " / marques : " + listMarq.size() 
 		+ " / ingrédients : " + listIng.size() 
+		+ " / produits : " + listProd.size() 
 		+ " / allergènes : " + listAll.size() 
 		+ " / additifs : " + listAdd.size();
 	}

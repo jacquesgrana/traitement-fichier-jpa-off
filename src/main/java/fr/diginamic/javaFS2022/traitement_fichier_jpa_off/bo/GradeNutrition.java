@@ -3,7 +3,7 @@ package fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo;
 public enum GradeNutrition {
 	A, B, C, D, E, F;
 	
-	public static GradeNutrition getByChar(char c) {
+	public static GradeNutrition getGradeByChar(char c) {
 		switch (c){
 		case 'a' :
 			return GradeNutrition.A;

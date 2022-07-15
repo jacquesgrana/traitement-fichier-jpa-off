@@ -3,10 +3,14 @@ package fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Categorie;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Produit;
 
 public class ProduitDao implements IPojoDao {
+	
+	private final static String GET_PROD_BY_NAME_REQ = "SELECT p FROM Produit p WHERE p.nom = :nom";
 
 	public ProduitDao() {}
 	
@@ -18,6 +22,14 @@ public class ProduitDao implements IPojoDao {
 			em.persist(elem);
 		}
 		em.getTransaction().commit();
+	}
+	
+	@Override
+	public Produit getByName(String nom, EntityManager em) {
+		TypedQuery<Produit> query = em.createQuery(GET_PROD_BY_NAME_REQ, Produit.class);
+    	query.setParameter("nom", nom);
+    	List<Produit> categories = query.getResultList();
+		return categories.get(0);
 	}
 
 }
