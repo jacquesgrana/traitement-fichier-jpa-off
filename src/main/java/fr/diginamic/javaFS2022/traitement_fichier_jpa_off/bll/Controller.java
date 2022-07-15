@@ -41,6 +41,8 @@ public class Controller {
 				try {
 					lines = csvDao.generateListFromCsv();
 					model.setIsDataLoaded(dbDao.populateDb(lines));
+					vue.displayMessage(dbDao.getLoadReport());
+					vue.waitForCToContinue();
 				} 
 				catch (IOException e) {
 					System.out.println("Problème sur le chargement du fichier csv : " + e.getMessage());

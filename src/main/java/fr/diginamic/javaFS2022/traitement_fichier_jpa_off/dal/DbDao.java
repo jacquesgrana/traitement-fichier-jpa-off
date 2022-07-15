@@ -8,13 +8,14 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Additif;
-import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.AdditifDao;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Categorie;
-import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.CategorieDao;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Marque;
-import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.MarqueDao;
 
 public class DbDao {
+	
+	private List<Object> listCat = new ArrayList<>();
+	private List<Object> listMarq = new ArrayList<>();
+	private List<Object> listAdd = new ArrayList<>();
 
 	public DbDao() {}
 
@@ -23,10 +24,6 @@ public class DbDao {
 		for(String line : lines) {
 			System.out.println(line);
 		}*/
-		
-		List<Object> listCat = new ArrayList<>();
-		List<Object> listMarq = new ArrayList<>();
-		List<Object> listAdd = new ArrayList<>();
 		
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpa_traitement_fichier");
     	EntityManager em = emf.createEntityManager();
@@ -61,7 +58,7 @@ public class DbDao {
     		}
     		
     		
-    		// TODO Traiter pour enlever les doublons
+
     		if(lineDatas.length >= 30) {
     			String addString = lineDatas[29];
         		//System.out.println("add : " + addString);
@@ -82,6 +79,7 @@ public class DbDao {
     		
     	}
     	
+		// TODO Traiter les listes pour enlever les doublons
     	catDao.addListToDb(listCat, em);
     	marqDao.addListToDb(listMarq, em);
     	addDao.addListToDb(listAdd, em);
@@ -91,6 +89,10 @@ public class DbDao {
     	em.close();
     	emf.close();
 		return true;
+	}
+
+	public String getLoadReport() {
+		return "Nb d'éléments récupérés : catégories : " + listCat.size() + " / marques : " + listMarq.size() + " / additifs : " + listAdd.size();
 	}
 
 }

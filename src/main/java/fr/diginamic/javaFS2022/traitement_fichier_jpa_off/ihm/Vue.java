@@ -38,21 +38,21 @@ public class Vue {
 		} 
 		else {
 
-			System.out.println("  * 1 : Population d'une ville                 *");
+			System.out.println("  * 1 : Afficher les catégories                *");
 			
 		}
-		System.out.println("  * Q : quitter l'application                  *");
+		System.out.println("  * Q : Quitter l'application                  *");
 		System.out.println("  *                                            *");
 		System.out.println("  **********************************************");
 		System.out.print("\n  Saisir votre choix et validez : ");
 	}
 	
 	public void displayQuitMessage() {
-		System.out.println("\n\n  Fin du programme.");
+		System.out.println("\n  Fin du programme.");
 	}
 	
 	public void displayContinue() {
-		System.out.println("\n  'C' pour continuer :");
+		System.out.print("\n  'C' pour continuer : ");
 	}
 
 	public void waitForCToContinue() {
@@ -63,6 +63,10 @@ public class Vue {
 			choice = choiceString2.charAt(0);
 		} 
 		while (choice != 'C' && choice != 'c');
+	}
+
+	public void displayMessage(String message) {
+		System.out.println("\n  " + message);
 	}
 
 }

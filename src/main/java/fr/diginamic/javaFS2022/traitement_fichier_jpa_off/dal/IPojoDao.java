@@ -1,4 +1,4 @@
-package fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo;
+package fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal;
 
 import java.util.List;
 
