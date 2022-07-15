@@ -8,7 +8,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Additif;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Allergene;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Categorie;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Ingredient;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Marque;
 
 public class DbDao {
@@ -16,6 +18,9 @@ public class DbDao {
 	private List<Object> listCat = new ArrayList<>();
 	private List<Object> listMarq = new ArrayList<>();
 	private List<Object> listAdd = new ArrayList<>();
+	private List<Object> listAll = new ArrayList<>();
+	private List<Object> listIng = new ArrayList<>();
+	
 
 	public DbDao() {}
 
@@ -31,6 +36,8 @@ public class DbDao {
     	CategorieDao catDao = new CategorieDao();
     	MarqueDao marqDao = new MarqueDao();
     	AdditifDao addDao = new AdditifDao();
+    	AllergeneDao allDao = new AllergeneDao();
+    	IngredientDao ingDao = new IngredientDao();
     	
     	//1e boucle pour peupler Categorie Marque Ingredient Additif Allergene
     	for (String line : lines) {
@@ -57,6 +64,34 @@ public class DbDao {
         		}
     		}
     		
+    		if(lineDatas.length >= 5) {
+    			String ingString = lineDatas[4];
+    			String[] ingDatas = ingString.split(",");
+    			for(int i=0; i<ingDatas.length; i++) {
+    				if (!ingDatas[i].equals("")) {
+    					ingDatas[i] = ingDatas[i].trim();
+    					Ingredient ing = new Ingredient(ingDatas[i]);
+    					if (!listIng.contains(ing)) {
+    						listIng.add(ing);
+    					}
+    				}
+    				
+    			}
+    		}
+    		
+    		if(lineDatas.length >= 29) {
+    			String allString = lineDatas[28];
+    			String[] allDatas = allString.split(",");
+    			for(int i=0; i<allDatas.length; i++) {
+    				if (!allDatas[i].equals("")) {
+    					allDatas[i] = allDatas[i].trim();
+    					Allergene all = new Allergene(allDatas[i]);
+    					if (!listAll.contains(all)) {
+        					listAll.add(all);
+        				}
+    				}
+    			}
+    		}
     		
 
     		if(lineDatas.length >= 30) {
@@ -83,8 +118,10 @@ public class DbDao {
     	catDao.addListToDb(listCat, em);
     	marqDao.addListToDb(listMarq, em);
     	addDao.addListToDb(listAdd, em);
+    	allDao.addListToDb(listAll, em);
+    	ingDao.addListToDb(listIng, em);
     	
-    	//2e boucle pour peupler produit avec appel prep stat pour recuperer les objets a partir des noms
+    	//2e boucle pour peupler produit avec appel prep stat pour recuperer les objets de la bd a partir des noms
     	
     	em.close();
     	emf.close();
@@ -92,7 +129,11 @@ public class DbDao {
 	}
 
 	public String getLoadReport() {
-		return "Nb d'éléments récupérés : catégories : " + listCat.size() + " / marques : " + listMarq.size() + " / additifs : " + listAdd.size();
+		return "Nb d'éléments récupérés : catégories : " + listCat.size() 
+		+ " / marques : " + listMarq.size() 
+		+ " / ingrédients : " + listIng.size() 
+		+ " / allergènes : " + listAll.size() 
+		+ " / additifs : " + listAdd.size();
 	}
 
 }

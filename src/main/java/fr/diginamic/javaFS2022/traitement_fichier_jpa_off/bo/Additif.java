@@ -39,8 +39,8 @@ public class Additif {
 	
 	@Override
 	public  boolean equals(Object o) {
-		Additif cat = (Additif) o;
-		boolean equals = cat.getNom().equals(this.nom);
+		Additif add = (Additif) o;
+		boolean equals = add.getNom().equals(this.nom);
 		return equals;
 	}
 

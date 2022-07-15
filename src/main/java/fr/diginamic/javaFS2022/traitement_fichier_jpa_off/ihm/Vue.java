@@ -44,7 +44,7 @@ public class Vue {
 		System.out.println("  * Q : Quitter l'application                  *");
 		System.out.println("  *                                            *");
 		System.out.println("  **********************************************");
-		System.out.print("\n  Saisir votre choix et validez : ");
+		System.out.print("\n  Saisir votre choix et valider : ");
 	}
 	
 	public void displayQuitMessage() {
@@ -52,7 +52,7 @@ public class Vue {
 	}
 	
 	public void displayContinue() {
-		System.out.print("\n  'C' pour continuer : ");
+		System.out.print("\n  Entrer 'C' et valider pour continuer : ");
 	}
 
 	public void waitForCToContinue() {

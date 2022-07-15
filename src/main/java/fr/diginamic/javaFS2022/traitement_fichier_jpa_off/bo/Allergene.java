@@ -37,13 +37,11 @@ public class Allergene {
 		this.nom = nom;
 	}
 	
-	public boolean Equals(Allergene object) {
-		if(this.nom.equals(object.getNom())) {
-			return true;
-		}
-		else {
-			return false;		
-		}
+	@Override
+	public  boolean equals(Object o) {
+		Allergene all = (Allergene) o;
+		boolean equals = all.getNom().equals(this.nom);
+		return equals;
 	}
 
 	/**
