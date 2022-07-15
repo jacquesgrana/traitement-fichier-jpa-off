@@ -9,6 +9,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -34,15 +36,26 @@ public class Produit {
 	private Marque marque;
 	
 	//ingredients
-	@ManyToMany(mappedBy="produits")
-	private Set<Ingredient> ingredients = new HashSet<>();
+	@ManyToMany
+	@JoinTable(name="Possede_Ing",
+	joinColumns= @JoinColumn(name="id_produit", referencedColumnName="id"),
+	inverseJoinColumns= @JoinColumn(name="id_ingredient", referencedColumnName="id"))
+	private Set<Ingredient> ingredients = new HashSet<>();		
 	
 	//additifs
-	@ManyToMany(mappedBy="produits")
+	//@ManyToMany(mappedBy="produits")
+	@ManyToMany
+	@JoinTable(name="Possede_Add",
+	joinColumns= @JoinColumn(name="id_produit", referencedColumnName="id"),
+	inverseJoinColumns= @JoinColumn(name="id_additif", referencedColumnName="id"))
 	private Set<Additif> additifs = new HashSet<>();
 	
 	//allergenes
-	@ManyToMany(mappedBy="produits")
+	//@ManyToMany(mappedBy="produits")
+	@ManyToMany
+	@JoinTable(name="Possede_Add",
+	joinColumns= @JoinColumn(name="id_produit", referencedColumnName="id"),
+	inverseJoinColumns= @JoinColumn(name="id_allergene", referencedColumnName="id"))
 	private Set<Allergene> allergenes = new HashSet<>();
 	
 	//presence huile de palme --> creer enum oui/non

@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Categorie;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Produit;
 
 public class ProduitDao implements IPojoDao {

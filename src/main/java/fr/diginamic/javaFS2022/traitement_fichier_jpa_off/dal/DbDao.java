@@ -44,6 +44,7 @@ public class DbDao {
     	ProduitDao prodDao = new ProduitDao();
     	
     	//1e boucle pour peupler Categorie Marque Ingredient Additif Allergene
+    	System.out.println("début 1e boucle");
     	for (String line : lines) {
     		
     		// Attention avec "|" : double echappement a faire
@@ -63,6 +64,7 @@ public class DbDao {
     			if (!listMarq.contains(marq)) {
         			listMarq.add(marq);
         		}
+    			
     		}
     		
     		if(lineDatas.length >= 5) {
@@ -70,8 +72,9 @@ public class DbDao {
     			String[] ingDatas = ingString.split(",");
     			for(int i=0; i<ingDatas.length; i++) {
     				if (!ingDatas[i].equals("")) {
-    					ingDatas[i] = ingDatas[i].trim();
-    					Ingredient ing = new Ingredient(ingDatas[i]);
+    					String ingName = ingDatas[i];
+    					ingName = ingName.trim();
+    					Ingredient ing = new Ingredient(ingName);
     					if (!listIng.contains(ing)) {
     						listIng.add(ing);
     					}
@@ -108,14 +111,12 @@ public class DbDao {
     				
     			}
     		}
-    		
-    		
     	}
     	
 		// TODO Traiter les listes pour enlever les doublons
     	// ajouter appel d'une méthode de cette classe pour chaque liste
     	
-    	
+    	System.out.println("début sauvegarde après 1e boucle");
     	catDao.addListToDb(listCat, em);
     	marqDao.addListToDb(listMarq, em);
     	addDao.addListToDb(listAdd, em);
@@ -124,9 +125,14 @@ public class DbDao {
     	
     	//2e boucle pour peupler produit avec appel prep stat pour recuperer les objets de la bd a partir des noms
     	// boucle sur lines
-    	
+    	System.out.println("début 2e boucle");
+    	//em.getTransaction().begin();
+    	int compteur =1;
     	for (String line : lines) {
     		// extraire le nom du produit
+    		StringBuilder builder = new StringBuilder();
+			builder.append("2e boucle : produit n° : ").append(compteur);
+    		System.out.println(builder.toString());
     		String[] lineDatas = line.split("\\|");
     		
     		// extraire categorie, marque
@@ -134,12 +140,12 @@ public class DbDao {
     		String catString = lineDatas[0];
     		String marqString = lineDatas[1];
     		String nomString = lineDatas[2];
-    		String nomGrade = lineDatas[3];
+    		String gradeString = lineDatas[3];
     		
     		// creer objet Produit
     		Produit produit = new Produit(nomString);
     		// extraire le grade nutriscore et obtenir valeur
-    		GradeNutrition grade = GradeNutrition.getGradeByChar(nomGrade.charAt(0));
+    		GradeNutrition grade = GradeNutrition.getGradeByChar(gradeString.charAt(0));
     		//System.out.println("grade : " + grade);
     		produit.setGrade(grade);
     		
@@ -156,19 +162,63 @@ public class DbDao {
     			// boucle sur ingredients
     			// recuperer objet ingredient de la bd
     			// ajouter ing a set des ingredients de l'objet produit
+    		
+    		if(lineDatas.length >= 5) {
+    			String ingString = lineDatas[4];
+    			String[] ingDatas = ingString.split(",");
+    			
+    			
+    			for(int i=0; i<ingDatas.length; i++) {
+    				if (!ingDatas[i].equals("") && (null != ingDatas[i])) {
+    					String ingName = ingDatas[i];
+    					ingName = ingName.trim();
+    					//Ingredient ing = this.getIngByName(ingName, listIng, em);
+    					Ingredient ing = ingDao.getByName(ingName, em);
+    					if(null != ing) {
+    						produit.getIngredients().add(ing);
+        					/*
+        					StringBuilder builder2 = new StringBuilder();
+        					builder2.append("ajoût ingrédient : ").append(ing.getNom()).append(" / au produit : ").append(compteur);
+        		    		System.out.println(builder2.toString());*/
+    					}
+    					
+    					//System.out.println("ajoût ingrédient au produit : " + compteur);
+    				}
+    			}
+    			
+    		}
+    		
+    		
+    		
+    		
+    		
     		// idem pour allergenes et additifs
     		// enregistrer produit dans la liste des produits
+    		//em.persist(produit);
     		listProd.add(produit);
-    		
+    		compteur++;
     	}
-    		
-    	//prodDao.addListToDb(listProd, em);
+    	//em.getTransaction().commit();
+    	System.out.println("début sauvegarde après 2e boucle");	
+    	prodDao.addListToDb(listProd, em);
     	
     	em.close();
     	emf.close();
 		return true;
 	}
-
+/*
+	private Ingredient getIngByName(String ingName, List<Object> list, EntityManager em) {
+		Ingredient ingredient = new Ingredient();
+		for(Object object : list) {
+			Ingredient ing = (Ingredient) object;
+			if(ing.equals(new Ingredient(ingName))) {
+				return ing;
+			}
+		}
+		
+		return ingredient;
+	}
+*/
 	public String getLoadReport() {
 		return "Nb d'éléments récupérés : catégories : " + listCat.size() 
 		+ " / marques : " + listMarq.size() 

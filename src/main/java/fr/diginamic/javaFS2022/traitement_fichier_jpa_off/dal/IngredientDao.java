@@ -30,8 +30,11 @@ public class IngredientDao implements IPojoDao {
 	public Ingredient getByName(String nom, EntityManager em) {
 		TypedQuery<Ingredient> query = em.createQuery(GET_ING_BY_NAME_REQ, Ingredient.class);
     	query.setParameter("nom", nom);
-    	List<Ingredient> categories = query.getResultList();
-		return categories.get(0);
+    	List<Ingredient> ingredients = query.getResultList();
+    	if(ingredients.isEmpty()) {
+    		return null;
+    	}
+		return ingredients.get(0);
 	}
 
 }
