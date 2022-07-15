@@ -1,11 +1,10 @@
 package fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.EntityManager;
 
-public class CategorieDao implements PojoDao{
+public class CategorieDao implements IPojoDao{
 
 	public CategorieDao() {}
 

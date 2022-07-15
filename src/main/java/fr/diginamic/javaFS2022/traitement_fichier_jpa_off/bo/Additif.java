@@ -37,13 +37,11 @@ public class Additif {
 		this.nom = nom;
 	}
 	
-	public boolean Equals(Additif object) {
-		if(this.nom.equals(object.getNom())) {
-			return true;
-		}
-		else {
-			return false;		
-		}
+	@Override
+	public  boolean equals(Object o) {
+		Additif cat = (Additif) o;
+		boolean equals = cat.getNom().equals(this.nom);
+		return equals;
 	}
 
 	/**
