@@ -352,8 +352,6 @@ public class DbDao {
 	}
 
 	public List<Categorie> getCatList() {
-		//CategorieDao catDao = new CategorieDao();
-		//System.out.println("  Connection ok" + em.toString());
 		List<Categorie> listToReturn = this.catDao.getList(this.em);
 		return listToReturn;
 	}
@@ -365,6 +363,21 @@ public class DbDao {
 	
 	public List<Additif> getAddList() {
 		List<Additif> listToReturn = this.addDao.getList(this.em);
+		return listToReturn;
+	}
+	
+	public List<Allergene> getAllList() {
+		List<Allergene> listToReturn = this.allDao.getList(this.em);
+		return listToReturn;
+	}
+	
+	public List<Ingredient> getIngList() {
+		List<Ingredient> listToReturn = this.ingDao.getList(this.em);
+		return listToReturn;
+	}
+	
+	public List<Produit> getProdList() {
+		List<Produit> listToReturn = this.prodDao.getList(this.em);
 		return listToReturn;
 	}
 

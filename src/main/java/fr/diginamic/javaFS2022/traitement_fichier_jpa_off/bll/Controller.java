@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.logging.Level;
 
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Additif;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Allergene;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Categorie;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Ingredient;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Marque;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Model;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Produit;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.CsvDao;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.DbDao;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.ihm.Vue;
@@ -67,7 +70,6 @@ public class Controller {
 				this.vue.displayCatList(listCat);
 				this.vue.waitForCToContinue();
 				break;
-				
 			case '2':
 				List<Marque> listMarq = this.model.getDbDao().getMarqList();
 				this.vue.displayMarqList(listMarq);
@@ -76,6 +78,21 @@ public class Controller {
 			case '3':
 				List<Additif> listAdd = this.model.getDbDao().getAddList();
 				this.vue.displayAddList(listAdd);
+				this.vue.waitForCToContinue();
+				break;
+			case '4':
+				List<Allergene> listAll = this.model.getDbDao().getAllList();
+				this.vue.displayAllList(listAll);
+				this.vue.waitForCToContinue();
+				break;
+			case '5':
+				List<Ingredient> listIng = this.model.getDbDao().getIngList();
+				this.vue.displayIngList(listIng);
+				this.vue.waitForCToContinue();
+				break;
+			case '6':
+				List<Produit> listProd = this.model.getDbDao().getProdList();
+				this.vue.displayProdList(listProd);
 				this.vue.waitForCToContinue();
 				break;
 			}

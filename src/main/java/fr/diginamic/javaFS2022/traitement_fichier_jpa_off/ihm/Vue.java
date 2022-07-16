@@ -4,8 +4,11 @@ import java.util.List;
 import java.util.Scanner;
 
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Additif;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Allergene;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Categorie;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Ingredient;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Marque;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Produit;
 
 public class Vue {
 	private Scanner sc;
@@ -44,6 +47,9 @@ public class Vue {
 		System.out.println("  * 1 : Afficher les catégories                *");
 		System.out.println("  * 2 : Afficher les marques                   *");
 		System.out.println("  * 3 : Afficher les additifs                  *");
+		System.out.println("  * 4 : Afficher les allergènes                *");
+		System.out.println("  * 5 : Afficher les ingrédients               *");
+		System.out.println("  * 6 : Afficher les produits                  *");
 		System.out.println("  * Q : Quitter l'application                  *");
 		System.out.println("  *                                            *");
 		System.out.println("  **********************************************");
@@ -97,6 +103,36 @@ public class Vue {
 		for (Additif add : listAdd) {
 			StringBuilder builder = new StringBuilder();
 			builder.append("  ").append(add.getNom());
+			System.out.println(builder.toString());
+		}
+		
+	}
+	
+	public void displayAllList(List<Allergene> listAll) {
+		System.out.println("\n\n  Liste des Allergènes :\n");
+		for (Allergene all : listAll) {
+			StringBuilder builder = new StringBuilder();
+			builder.append("  ").append(all.getNom());
+			System.out.println(builder.toString());
+		}
+		
+	}
+	
+	public void displayIngList(List<Ingredient> listIng) {
+		System.out.println("\n\n  Liste des Ingrédients :\n");
+		for (Ingredient ing : listIng) {
+			StringBuilder builder = new StringBuilder();
+			builder.append("  ").append(ing.getNom());
+			System.out.println(builder.toString());
+		}
+		
+	}
+	
+	public void displayProdList(List<Produit> listProd) {
+		System.out.println("\n\n  Liste des Produits :\n");
+		for (Produit prod : listProd) {
+			StringBuilder builder = new StringBuilder();
+			builder.append("  ").append(prod.getNom());
 			System.out.println(builder.toString());
 		}
 		
