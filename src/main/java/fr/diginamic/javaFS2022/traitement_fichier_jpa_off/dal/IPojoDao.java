@@ -8,10 +8,9 @@ public interface IPojoDao {
 	
 	public void addListToDb(List<Object> listToAdd, EntityManager em);
 	
-	// TODO ajouter méthode getByName qui renvoie un objet
 	public Object getByName(String nom, EntityManager em);
 	
-	//public List<Object> getList(EntityManager em);
+	public List<?> getList(EntityManager em);
 	
 	public void emptyTable(EntityManager em);
 

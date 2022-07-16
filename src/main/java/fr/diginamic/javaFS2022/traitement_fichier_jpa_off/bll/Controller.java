@@ -45,7 +45,7 @@ public class Controller {
 			case '0':
 				CsvDao csvDao = new CsvDao();
 				// TODO ajouter vidage des tables : 
-				//this.model.getDbDao().emptyTables();
+				this.model.getDbDao().emptyTables();
 				List<String> lines;
 				try {
 					lines = csvDao.generateListFromCsv();

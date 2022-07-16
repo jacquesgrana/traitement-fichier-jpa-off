@@ -17,6 +17,10 @@ import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Produit;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.ihm.Vue;
 
 public class DbDao {
+	
+	//private final static String EMPTY_POSSEDE_ING_TABLE_REQ = "DELETE FROM Possede_Ing";
+	//private final static String EMPTY_POSSEDE_ALL_TABLE_REQ = "DELETE FROM Possede_All";
+	//private final static String EMPTY_POSSEDE_ADD_TABLE_REQ = "DELETE FROM Possede_Add";
 
 	private List<Object> listCat = new ArrayList<>();
 	private List<Object> listMarq = new ArrayList<>();
@@ -352,10 +356,27 @@ public class DbDao {
 	}
 
 	public void emptyTables() {
-		prodDao.emptyTable(em);
-		catDao.emptyTable(em);
+		System.out.println("  Vidage des tables");
+		this.prodDao.emptyTable(em);
+		this.catDao.emptyTable(em);
+		this.marqDao.emptyTable(em);
+		this.addDao.emptyTable(em);
+		this.allDao.emptyTable(em);
+		this.ingDao.emptyTable(em);
+		
 		
 		// TODO vider les 3 tables d'association
+		/*
+		System.out.println("  Vidage des tables d'association");
+		em.getTransaction().begin();
+		Query queryIng = em.createQuery(EMPTY_POSSEDE_ING_TABLE_REQ);
+		Query queryAll = em.createQuery(EMPTY_POSSEDE_ALL_TABLE_REQ);
+		Query queryAdd = em.createQuery(EMPTY_POSSEDE_ADD_TABLE_REQ);
+		queryIng.executeUpdate();
+		queryAll.executeUpdate();
+		queryAdd.executeUpdate();
+		em.getTransaction().commit();
+		*/
 	}
 
 }
