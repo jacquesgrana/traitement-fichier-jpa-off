@@ -354,6 +354,11 @@ public class DbDao {
 		List<Marque> listToReturn = this.marqDao.getList(this.em);
 		return listToReturn;
 	}
+	
+	public List<Additif> getAddList() {
+		List<Additif> listToReturn = this.addDao.getList(this.em);
+		return listToReturn;
+	}
 
 	public void emptyTables() {
 		System.out.println("  Vidage des tables");

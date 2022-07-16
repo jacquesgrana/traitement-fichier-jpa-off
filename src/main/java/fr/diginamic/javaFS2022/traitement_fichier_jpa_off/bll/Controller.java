@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Additif;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Categorie;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Marque;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Model;
@@ -68,9 +69,13 @@ public class Controller {
 				break;
 				
 			case '2':
-				//dbDao = new DbDao();
 				List<Marque> listMarq = this.model.getDbDao().getMarqList();
 				this.vue.displayMarqList(listMarq);
+				this.vue.waitForCToContinue();
+				break;
+			case '3':
+				List<Additif> listAdd = this.model.getDbDao().getAddList();
+				this.vue.displayAddList(listAdd);
 				this.vue.waitForCToContinue();
 				break;
 			}

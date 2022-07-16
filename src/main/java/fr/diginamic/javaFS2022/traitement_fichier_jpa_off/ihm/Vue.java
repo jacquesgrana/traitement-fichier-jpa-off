@@ -3,6 +3,7 @@ package fr.diginamic.javaFS2022.traitement_fichier_jpa_off.ihm;
 import java.util.List;
 import java.util.Scanner;
 
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Additif;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Categorie;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Marque;
 
@@ -42,6 +43,7 @@ public class Vue {
 		} 
 		System.out.println("  * 1 : Afficher les catégories                *");
 		System.out.println("  * 2 : Afficher les marques                   *");
+		System.out.println("  * 3 : Afficher les additifs                  *");
 		System.out.println("  * Q : Quitter l'application                  *");
 		System.out.println("  *                                            *");
 		System.out.println("  **********************************************");
@@ -88,6 +90,16 @@ public class Vue {
 			builder.append("  ").append(marq.getNom());
 			System.out.println(builder.toString());
 		}
+	}
+
+	public void displayAddList(List<Additif> listAdd) {
+		System.out.println("\n\n  Liste des Additifs :\n");
+		for (Additif add : listAdd) {
+			StringBuilder builder = new StringBuilder();
+			builder.append("  ").append(add.getNom());
+			System.out.println(builder.toString());
+		}
+		
 	}
 
 }
