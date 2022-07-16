@@ -183,12 +183,14 @@ public class DbDao {
 			GradeNutrition grade = GradeNutrition.getGradeByChar(gradeString.charAt(0));
 			// System.out.println("grade : " + grade);
 			produit.setGrade(grade);
-			
+			PalmOilPresence palmOil;
 			if (palmOilString.length() > 0) { 
-				PalmOilPresence palmOil = PalmOilPresence.getOilPresenceByChar(palmOilString.charAt(0));
-				produit.setPalmOil(palmOil);
+				palmOil = PalmOilPresence.getOilPresenceByChar(palmOilString.charAt(0));
 			}
-			
+			else {
+				palmOil = PalmOilPresence.NSP;
+			}
+			produit.setPalmOil(palmOil);
 
 			// chercher objet de la bd categorie et marque
 			Categorie categorie = catDao.getByName(catString, em);

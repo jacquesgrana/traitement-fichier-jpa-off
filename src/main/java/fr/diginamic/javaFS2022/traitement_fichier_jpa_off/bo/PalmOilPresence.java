@@ -1,7 +1,7 @@
 package fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo;
 
 public enum PalmOilPresence {
-	OUI, NON;
+	OUI, NON, NSP;
 	
 	public static PalmOilPresence getOilPresenceByChar(char c) {
 		switch (c){
@@ -10,7 +10,7 @@ public enum PalmOilPresence {
 		case '1' :
 			return PalmOilPresence.OUI;
 		default :
-			return null;
+			return PalmOilPresence.NSP;
 		}
 	}
 }
