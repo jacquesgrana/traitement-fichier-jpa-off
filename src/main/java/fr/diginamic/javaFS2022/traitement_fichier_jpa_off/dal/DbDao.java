@@ -14,6 +14,7 @@ import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.GradeNutrition;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Ingredient;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Marque;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Produit;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.ihm.Vue;
 
 public class DbDao {
 
@@ -27,7 +28,7 @@ public class DbDao {
 	public DbDao() {
 	}
 
-	public Boolean populateDb(List<String> lines) {
+	public Boolean populateDb(List<String> lines, Vue vue) {
 		/*
 		 * for(String line : lines) { System.out.println(line); }
 		 */
@@ -43,8 +44,13 @@ public class DbDao {
 		ProduitDao prodDao = new ProduitDao();
 
 		// 1e boucle pour peupler Categorie Marque Ingredient Additif Allergene
-		System.out.println("début 1e boucle");
+		//System.out.println("début 1e boucle");
+		vue.displayMessage("Début 1e boucle");
+		int compteur = 1;
 		for (String line : lines) {
+			StringBuilder builder = new StringBuilder();
+			builder.append("1e boucle : ligne n° : ").append(compteur);
+			vue.displayMessage(builder.toString());
 
 			// Attention avec "|" : double echappement a faire
 			String[] lineDatas = line.split("\\|");
@@ -109,12 +115,14 @@ public class DbDao {
 
 				}
 			}
+			compteur++;
 		}
 
 		// TODO Traiter les listes pour enlever les doublons
 		// ajouter appel d'une méthode de cette classe pour chaque liste
 
-		System.out.println("début sauvegarde après 1e boucle");
+		//System.out.println("début sauvegarde après 1e boucle");
+		vue.displayMessage("Début sauvegarde après 1e boucle");
 		catDao.addListToDb(listCat, em);
 		marqDao.addListToDb(listMarq, em);
 		addDao.addListToDb(listAdd, em);
@@ -124,14 +132,16 @@ public class DbDao {
 		// 2e boucle pour peupler produit avec appel prep stat pour recuperer les objets
 		// de la bd a partir des noms
 		// boucle sur lines
-		System.out.println("début 2e boucle");
+		//System.out.println("début 2e boucle");
+		vue.displayMessage("Début 2e boucle");
 		// em.getTransaction().begin();
-		int compteur = 1;
+		compteur = 1;
 		for (String line : lines) {
 			// extraire le nom du produit
 			StringBuilder builder = new StringBuilder();
-			builder.append("2e boucle : produit n° : ").append(compteur);
-			System.out.println(builder.toString());
+			builder.append("2e boucle : ligne n° : ").append(compteur);
+			vue.displayMessage(builder.toString());
+			//System.out.println(builder.toString());
 			String[] lineDatas = line.split("\\|");
 
 			// extraire categorie, marque
@@ -171,7 +181,8 @@ public class DbDao {
 						String ingName = ingDatas[i];
 						ingName = ingName.trim();
 						// Ingredient ing = this.getIngByName(ingName, listIng, em);
-						Ingredient ing = ingDao.getByName(ingName, em);
+						//Ingredient ing = ingDao.getByName(ingName, em);
+						Ingredient ing = this.getIngByName(ingName, listIng);
 						if (null != ing) {
 							produit.getIngredients().add(ing);
 							/*
@@ -194,9 +205,24 @@ public class DbDao {
 				for (int i = 0; i < allDatas.length; i++) {
 					if (!allDatas[i].equals("")) {
 						allDatas[i] = allDatas[i].trim();
-						Allergene all = allDao.getByName(allDatas[i], em);
+						//Allergene all = allDao.getByName(allDatas[i], em);
+						Allergene all = this.getAllByName(allDatas[i], listAll);
 						if (null != all) {
 							produit.getAllergenes().add(all);
+						}
+					}
+				}
+			}
+			
+			if (lineDatas.length >= 30) {
+				String addString = lineDatas[29];
+				String[] addDatas = addString.split(" - ");
+				
+				for (int i = 0; i < addDatas.length; i++) {
+					if (!addDatas[i].equals("")) {
+						Additif add = this.getAddByName(addDatas[i], listAdd);
+						if (null != add) {
+							produit.getAdditifs().add(add);
 						}
 					}
 				}
@@ -209,26 +235,88 @@ public class DbDao {
 			compteur++;
 		}
 		// em.getTransaction().commit();
-		System.out.println("début sauvegarde après 2e boucle");
+		//System.out.println("début sauvegarde après 2e boucle");
+		vue.displayMessage("Début sauvegarde après 2e boucle");
 		prodDao.addListToDb(listProd, em);
 
 		em.close();
 		emf.close();
 		return true;
 	}
-
 	/*
-	 * private Ingredient getIngByName(String ingName, List<Object> list,
-	 * EntityManager em) { Ingredient ingredient = new Ingredient(); for(Object
-	 * object : list) { Ingredient ing = (Ingredient) object; if(ing.equals(new
-	 * Ingredient(ingName))) { return ing; } }
-	 * 
-	 * return ingredient; }
+	private Categorie getCatByName(String catName, List<Object> list) { 
+		Categorie categorie = new Categorie(catName); 
+	 for(Object object : list) { 
+		 Categorie cat = (Categorie) object; 
+		 if(cat.equals(categorie)) { 
+			 return cat; 
+			 } 
+		 }
+	 return null; 
+	 }
+	*/
+	/*
+	private Marque getMarqByName(String marqName, List<Object> list) { 
+		Marque marque = new Marque(marqName); 
+	 for(Object object : list) { 
+		 Marque marq = (Marque) object; 
+		 if(marq.equals(marque)) { 
+			 return marq; 
+			 } 
+		 }
+	 return null; 
+	 }
 	 */
+	
+	 private Ingredient getIngByName(String ingName, List<Object> list) { 
+		 Ingredient ingredient = new Ingredient(ingName); 
+	 for(Object object : list) { 
+		 Ingredient ing = (Ingredient) object; 
+		 if(ing.equals(ingredient)) { 
+			 return ing; 
+			 } 
+		 }
+	 
+	 return null; 
+	 }
+	 
+	 private Allergene getAllByName(String allName, List<Object> list) { 
+		 Allergene allergene = new Allergene(allName); 
+	 for(Object object : list) { 
+		 Allergene all = (Allergene) object; 
+		 if(all.equals(allergene)) { 
+			 return all; 
+			 } 
+		 }
+	 
+	 return null; 
+	 }
+	 
+	 private Additif getAddByName(String addName, List<Object> list) { 
+		 Additif additif = new Additif(addName); 
+	 for(Object object : list) { 
+		 Additif add = (Additif) object; 
+		 if(add.equals(additif)) { 
+			 return add; 
+			 } 
+		 }
+	 
+	 return null; 
+	 }
+	 
 	public String getLoadReport() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Nb d'éléments récupérés : catégories : ").append(listCat.size());
+		builder.append(" / marques : ").append(listMarq.size());
+		builder.append(" / ingrédients : ").append(listIng.size());
+		builder.append(" / produits : ").append(listProd.size());
+		builder.append(" / allergènes : ").append(listAll.size());
+		builder.append(" / additifs : ").append(listAdd.size());
+		/*
 		return "Nb d'éléments récupérés : catégories : " + listCat.size() + " / marques : " + listMarq.size()
 				+ " / ingrédients : " + listIng.size() + " / produits : " + listProd.size() + " / allergènes : "
-				+ listAll.size() + " / additifs : " + listAdd.size();
+				+ listAll.size() + " / additifs : " + listAdd.size();*/
+		return builder.toString();
 	}
 
 }

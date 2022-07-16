@@ -40,7 +40,7 @@ public class Controller {
 				List<String> lines;
 				try {
 					lines = csvDao.generateListFromCsv();
-					model.setIsDataLoaded(dbDao.populateDb(lines));
+					model.setIsDataLoaded(dbDao.populateDb(lines, this.vue));
 					vue.displayMessage(dbDao.getLoadReport());
 					vue.waitForCToContinue();
 				} 

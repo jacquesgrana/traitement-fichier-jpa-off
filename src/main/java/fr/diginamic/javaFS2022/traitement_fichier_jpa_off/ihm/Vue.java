@@ -66,7 +66,9 @@ public class Vue {
 	}
 
 	public void displayMessage(String message) {
-		System.out.println("\n  " + message);
+		StringBuilder builder = new StringBuilder();
+		builder.append("\n  ").append(message);
+		System.out.println(builder.toString());
 	}
 
 }
