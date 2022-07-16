@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Categorie;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Marque;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Model;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.CsvDao;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.DbDao;
@@ -27,6 +28,7 @@ public class Controller {
 		java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.OFF);
 		this.model.setDbDao(new DbDao());
 		this.model.getDbDao().init();
+		// TODO ajouter appel methode de dbDao qui set le booleen isFilesLoaded selon si la base est pleine ou pas
 	}
 	
 	public void run() {
@@ -42,26 +44,33 @@ public class Controller {
 				break;
 			case '0':
 				CsvDao csvDao = new CsvDao();
-				// TODO ajouter destruction des tables ??
+				// TODO ajouter vidage des tables : 
+				//this.model.getDbDao().emptyTables();
 				List<String> lines;
 				try {
 					lines = csvDao.generateListFromCsv();
-					model.setIsDataLoaded(this.model.getDbDao().populateDb(lines, this.vue));
+					model.setIsDataLoaded(this.model.getDbDao().populateDb(lines, this.vue)); // TODO enlever set booleen
 					vue.displayMessage(this.model.getDbDao().getLoadReport());
 					vue.waitForCToContinue();
 				} 
 				catch (IOException e) {
-					System.out.println("Problème sur le chargement du fichier csv : " + e.getMessage());
+					this.vue.displayMessage("Problème sur le chargement du fichier csv : " + e.getMessage());
+					//System.out.println("Problème sur le chargement du fichier csv : " + e.getMessage());
 					model.setIsDataLoaded(false);
 				}
-				// TODO appels dao des classes pojo pour peupler la bd
-				//this.model.setIsDataLoaded(true);
 				break;
 				
 			case '1':
 				//dbDao = new DbDao();
 				List<Categorie> listCat = this.model.getDbDao().getCatList();
 				this.vue.displayCatList(listCat);
+				this.vue.waitForCToContinue();
+				break;
+				
+			case '2':
+				//dbDao = new DbDao();
+				List<Marque> listMarq = this.model.getDbDao().getMarqList();
+				this.vue.displayMarqList(listMarq);
 				this.vue.waitForCToContinue();
 				break;
 			}

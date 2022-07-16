@@ -10,5 +10,9 @@ public interface IPojoDao {
 	
 	// TODO ajouter méthode getByName qui renvoie un objet
 	public Object getByName(String nom, EntityManager em);
+	
+	//public List<Object> getList(EntityManager em);
+	
+	public void emptyTable(EntityManager em);
 
 }

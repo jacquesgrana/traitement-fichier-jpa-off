@@ -27,6 +27,13 @@ public class DbDao {
 	
 	private EntityManagerFactory emf;
 	private EntityManager em;
+	
+	CategorieDao catDao;
+	MarqueDao marqDao;
+	AdditifDao addDao;
+	AllergeneDao allDao;
+	IngredientDao ingDao;
+	ProduitDao prodDao;
 
 	public DbDao() {
 	}
@@ -34,6 +41,12 @@ public class DbDao {
 	public void init() {
 		emf = Persistence.createEntityManagerFactory("jpa_traitement_fichier");
 		em = emf.createEntityManager();
+		this.catDao = new CategorieDao();
+		this.marqDao = new MarqueDao();
+		this.addDao = new AdditifDao();
+		this.allDao = new AllergeneDao();
+		this.ingDao = new IngredientDao();
+		this.prodDao = new ProduitDao();
 	}
 	
 	public void close() {
@@ -48,12 +61,7 @@ public class DbDao {
 		//	EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpa_traitement_fichier");
 		//EntityManager em = emf.createEntityManager()
 		// System.out.println("connection ok : " + em);
-		CategorieDao catDao = new CategorieDao();
-		MarqueDao marqDao = new MarqueDao();
-		AdditifDao addDao = new AdditifDao();
-		AllergeneDao allDao = new AllergeneDao();
-		IngredientDao ingDao = new IngredientDao();
-		ProduitDao prodDao = new ProduitDao();
+		
 
 		// 1e boucle pour peupler Categorie Marque Ingredient Additif Allergene
 		//System.out.println("début 1e boucle");
@@ -332,10 +340,22 @@ public class DbDao {
 	}
 
 	public List<Categorie> getCatList() {
-		CategorieDao catDao = new CategorieDao();
+		//CategorieDao catDao = new CategorieDao();
 		//System.out.println("  Connection ok" + em.toString());
-		List<Categorie> listToReturn = catDao.getList(this.em);
+		List<Categorie> listToReturn = this.catDao.getList(this.em);
 		return listToReturn;
+	}
+	
+	public List<Marque> getMarqList() {
+		List<Marque> listToReturn = this.marqDao.getList(this.em);
+		return listToReturn;
+	}
+
+	public void emptyTables() {
+		prodDao.emptyTable(em);
+		catDao.emptyTable(em);
+		
+		// TODO vider les 3 tables d'association
 	}
 
 }

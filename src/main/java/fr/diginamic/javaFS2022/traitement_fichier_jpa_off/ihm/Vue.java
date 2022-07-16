@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Categorie;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Marque;
 
 public class Vue {
 	private Scanner sc;
@@ -39,11 +40,8 @@ public class Vue {
 		if (!isFilesLoaded) {
 			System.out.println("  * 0 : Initialisation des données             *");
 		} 
-		else {
-
-			System.out.println("  * 1 : Afficher les catégories                *");
-			
-		}
+		System.out.println("  * 1 : Afficher les catégories                *");
+		System.out.println("  * 2 : Afficher les marques                   *");
 		System.out.println("  * Q : Quitter l'application                  *");
 		System.out.println("  *                                            *");
 		System.out.println("  **********************************************");
@@ -81,7 +79,15 @@ public class Vue {
 			builder.append("  ").append(cat.getNom());
 			System.out.println(builder.toString());
 		}
-		
+	}
+
+	public void displayMarqList(List<Marque> listMarq) {
+		System.out.println("\n\n  Liste des Catégories :\n");
+		for (Marque marq : listMarq) {
+			StringBuilder builder = new StringBuilder();
+			builder.append("  ").append(marq.getNom());
+			System.out.println(builder.toString());
+		}
 	}
 
 }
