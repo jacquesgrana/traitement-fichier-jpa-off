@@ -13,6 +13,7 @@ public class CategorieDao implements IPojoDao{
 	private final static String GET_CAT_BY_NAME_REQ = "SELECT c FROM Categorie c WHERE c.nom = :nom";
 	private final static String GET_CAT_ORDER_BY_NAME_REQ = "SELECT c FROM Categorie c ORDER BY c.nom";
 	private final static String EMPTY_CAT_TABLE_REQ = "DELETE FROM Categorie";
+	private final static String GET_CAT_ELEM_NB_REQ = "SELECT COUNT(c) FROM Categorie c";
 
 	public CategorieDao() {}
 
@@ -45,5 +46,15 @@ public class CategorieDao implements IPojoDao{
 		Query query = em.createQuery(EMPTY_CAT_TABLE_REQ);
 		query.executeUpdate();
 		em.getTransaction().commit();
+	}
+	
+	@Override
+	public Long getElementNb(EntityManager em) {
+		Long valToReturn = 0L;
+		em.getTransaction().begin();
+		TypedQuery<Long> query = em.createQuery(GET_CAT_ELEM_NB_REQ , Long.class);
+		valToReturn = query.getSingleResult();
+		em.getTransaction().commit();
+		return valToReturn;
 	}
 }

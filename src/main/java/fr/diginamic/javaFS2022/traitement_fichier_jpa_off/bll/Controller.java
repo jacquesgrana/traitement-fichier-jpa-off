@@ -20,18 +20,20 @@ public class Controller {
 	private Vue vue;
 	private Model model;
 	
-	//DbDao dbDao;
-	
-	// TODO ajouter au lancement si la base existe et est op pour proposer un menu different
+	// TODO ajouter 3e categorie dans enum huiledepalme : "NSP"
+	// TODO modifier dbDao 2e boucle pour mettre NSP qd pas renseigné
 	
 	public void init() {
+		java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.OFF);
 		this.model = new Model();
 		this.vue = new Vue();
 		this.model.init();
 		this.vue.init();
-		java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.OFF);
 		this.model.setDbDao(new DbDao());
 		this.model.getDbDao().init();
+		this.model.setIsDataLoaded(this.model.getDbDao().isTablesFull());
+		//System.out.println("booléen : " + this.model.getIsDataLoaded());
+		//this.vue.waitForCToContinue();
 		// TODO ajouter appel methode de dbDao qui set le booleen isFilesLoaded selon si la base est pleine ou pas
 	}
 	
@@ -66,34 +68,47 @@ public class Controller {
 				
 			case '1':
 				//dbDao = new DbDao();
-				List<Categorie> listCat = this.model.getDbDao().getCatList();
-				this.vue.displayCatList(listCat);
-				this.vue.waitForCToContinue();
+				if (this.model.getIsDataLoaded()) {
+					List<Categorie> listCat = this.model.getDbDao().getCatList();
+					this.vue.displayCatList(listCat);
+					this.vue.waitForCToContinue();
+				}
 				break;
 			case '2':
-				List<Marque> listMarq = this.model.getDbDao().getMarqList();
-				this.vue.displayMarqList(listMarq);
-				this.vue.waitForCToContinue();
+				if (this.model.getIsDataLoaded()) {
+					List<Marque> listMarq = this.model.getDbDao().getMarqList();
+					this.vue.displayMarqList(listMarq);
+					this.vue.waitForCToContinue();
+					
+				}
 				break;
 			case '3':
-				List<Additif> listAdd = this.model.getDbDao().getAddList();
-				this.vue.displayAddList(listAdd);
-				this.vue.waitForCToContinue();
+				if (this.model.getIsDataLoaded()) {
+					List<Additif> listAdd = this.model.getDbDao().getAddList();
+					this.vue.displayAddList(listAdd);
+					this.vue.waitForCToContinue();
+				}
 				break;
 			case '4':
-				List<Allergene> listAll = this.model.getDbDao().getAllList();
-				this.vue.displayAllList(listAll);
-				this.vue.waitForCToContinue();
+				if (this.model.getIsDataLoaded()) {
+					List<Allergene> listAll = this.model.getDbDao().getAllList();
+					this.vue.displayAllList(listAll);
+					this.vue.waitForCToContinue();
+				}
 				break;
 			case '5':
-				List<Ingredient> listIng = this.model.getDbDao().getIngList();
-				this.vue.displayIngList(listIng);
-				this.vue.waitForCToContinue();
+				if (this.model.getIsDataLoaded()) {
+					List<Ingredient> listIng = this.model.getDbDao().getIngList();
+					this.vue.displayIngList(listIng);
+					this.vue.waitForCToContinue();
+				}
 				break;
 			case '6':
-				List<Produit> listProd = this.model.getDbDao().getProdList();
-				this.vue.displayProdList(listProd);
-				this.vue.waitForCToContinue();
+				if (this.model.getIsDataLoaded()) {
+					List<Produit> listProd = this.model.getDbDao().getProdList();
+					this.vue.displayProdList(listProd);
+					this.vue.waitForCToContinue();
+				}
 				break;
 			}
 			

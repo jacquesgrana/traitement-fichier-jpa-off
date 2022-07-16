@@ -404,5 +404,17 @@ public class DbDao {
 		em.getTransaction().commit();
 		*/
 	}
+	
+	public Boolean isTablesFull() {
+		// faire requete qui renvoie le nb d'element d'une table
+		Boolean isAddTableFull = this.addDao.getElementNb(this.em) > 0;
+		Boolean isAllTableFull = this.allDao.getElementNb(this.em) > 0;
+		Boolean isCatTableFull = this.catDao.getElementNb(this.em) > 0;
+		Boolean isIngTableFull = this.ingDao.getElementNb(this.em) > 0;
+		Boolean isMarqTableFull = this.marqDao.getElementNb(this.em) > 0;
+		Boolean isProdTableFull = this.prodDao.getElementNb(this.em) > 0;
+		// return bool1 && bool2 && ...
+		return (isAddTableFull && isAllTableFull && isCatTableFull && isIngTableFull && isMarqTableFull && isProdTableFull);
+	}
 
 }

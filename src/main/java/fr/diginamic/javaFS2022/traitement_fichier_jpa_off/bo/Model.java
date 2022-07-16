@@ -4,28 +4,28 @@ import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.DbDao;
 
 public class Model {
 
-	private Boolean isDataLoaded;
+	private Boolean isDbFull;
 	
 	private DbDao dbDao;
 	
 	public Model() {}
 	
 	public void init() {
-		this.isDataLoaded = false;
+		this.isDbFull = false;
 	}
 
 	/**
 	 * @return the isDataLoaded
 	 */
 	public Boolean getIsDataLoaded() {
-		return isDataLoaded;
+		return isDbFull;
 	}
 
 	/**
 	 * @param isDataLoaded the isDataLoaded to set
 	 */
 	public void setIsDataLoaded(Boolean isDataLoaded) {
-		this.isDataLoaded = isDataLoaded;
+		this.isDbFull = isDataLoaded;
 	}
 
 	/**

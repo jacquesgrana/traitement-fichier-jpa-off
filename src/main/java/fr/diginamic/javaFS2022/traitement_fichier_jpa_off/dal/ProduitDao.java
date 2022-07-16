@@ -13,6 +13,7 @@ public class ProduitDao implements IPojoDao {
 	private final static String GET_PROD_BY_NAME_REQ = "SELECT p FROM Produit p WHERE p.nom = :nom";
 	private final static String GET_PROD_ORDER_BY_NAME_REQ = "SELECT p FROM Produit p ORDER BY p.nom";
 	private final static String EMPTY_PROD_TABLE_REQ = "DELETE FROM Produit";
+	private final static String GET_PROD_ELEM_NB_REQ = "SELECT COUNT(p) FROM Produit p";
 
 	public ProduitDao() {}
 	
@@ -48,4 +49,13 @@ public class ProduitDao implements IPojoDao {
 		return query.getResultList();
 	}
 
+	@Override
+	public Long getElementNb(EntityManager em) {
+		Long valToReturn = 0L;
+		em.getTransaction().begin();
+		TypedQuery<Long> query = em.createQuery(GET_PROD_ELEM_NB_REQ , Long.class);
+		valToReturn = query.getSingleResult();
+		em.getTransaction().commit();
+		return valToReturn;
+	}
 }

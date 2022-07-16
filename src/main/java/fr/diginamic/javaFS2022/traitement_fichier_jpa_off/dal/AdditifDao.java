@@ -11,8 +11,9 @@ import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Additif;
 public class AdditifDao implements IPojoDao{
 	
 	private final static String GET_ADD_BY_NAME_REQ = "SELECT a FROM Additif a WHERE a.nom = :nom";
-	private final static String GET_ADD_ORDER_BY_NAME_REQ = "SELECT i FROM Additif i ORDER BY i.nom";
+	private final static String GET_ADD_ORDER_BY_NAME_REQ = "SELECT a FROM Additif a ORDER BY a.nom";
 	private final static String EMPTY_ADD_TABLE_REQ = "DELETE FROM Additif";
+	private final static String GET_ADD_ELEM_NB_REQ = "SELECT COUNT(a) FROM Additif a";
 
 	public AdditifDao() {}
 	
@@ -47,4 +48,13 @@ public class AdditifDao implements IPojoDao{
 		em.getTransaction().commit();
 	}
 
+	@Override
+	public Long getElementNb(EntityManager em) {
+		Long valToReturn = 0L;
+		em.getTransaction().begin();
+		TypedQuery<Long> query = em.createQuery(GET_ADD_ELEM_NB_REQ , Long.class);
+		valToReturn = query.getSingleResult();
+		em.getTransaction().commit();
+		return valToReturn;
+	}
 }

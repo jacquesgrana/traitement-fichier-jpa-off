@@ -13,6 +13,7 @@ public class IngredientDao implements IPojoDao {
 	private final static String GET_ING_BY_NAME_REQ = "SELECT i FROM Ingredient i WHERE i.nom = :nom";
 	private final static String GET_ING_ORDER_BY_NAME_REQ = "SELECT i FROM Ingredient i ORDER BY i.nom";
 	private final static String EMPTY_ING_TABLE_REQ = "DELETE FROM Ingredient";
+	private final static String GET_ING_ELEM_NB_REQ = "SELECT COUNT(i) FROM Ingredient i";
 
 	public IngredientDao() {}
 	
@@ -52,5 +53,14 @@ public class IngredientDao implements IPojoDao {
 		query.executeUpdate();
 		em.getTransaction().commit();
 	}
-
+	
+	@Override
+	public Long getElementNb(EntityManager em) {
+		Long valToReturn = 0L;
+		em.getTransaction().begin();
+		TypedQuery<Long> query = em.createQuery(GET_ING_ELEM_NB_REQ , Long.class);
+		valToReturn = query.getSingleResult();
+		em.getTransaction().commit();
+		return valToReturn;
+	}
 }

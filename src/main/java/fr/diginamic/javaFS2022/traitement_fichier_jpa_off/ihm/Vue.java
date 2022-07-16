@@ -33,7 +33,7 @@ public class Vue {
 		return charToReturn;
 	}
 	
-	public void displayGeneralMenu(boolean isFilesLoaded) {
+	public void displayGeneralMenu(boolean isDbFull) {
 		System.out.println("\n\n\n\n");
 		System.out.println("  **********************************************");
 		System.out.println("  *                                            *");
@@ -41,15 +41,15 @@ public class Vue {
 		System.out.println("  *                                            *");
 		System.out.println("  * Menu :                                     *");
 		System.out.println("  *                                            *");
-		if (!isFilesLoaded) {
-			System.out.println("  * 0 : Initialisation des données             *");
+		System.out.println("  * 0 : Initialisation des données             *");
+		if (isDbFull) {
+			System.out.println("  * 1 : Afficher les catégories                *");
+			System.out.println("  * 2 : Afficher les marques                   *");
+			System.out.println("  * 3 : Afficher les additifs                  *");
+			System.out.println("  * 4 : Afficher les allergènes                *");
+			System.out.println("  * 5 : Afficher les ingrédients               *");
+			System.out.println("  * 6 : Afficher les produits                  *");
 		} 
-		System.out.println("  * 1 : Afficher les catégories                *");
-		System.out.println("  * 2 : Afficher les marques                   *");
-		System.out.println("  * 3 : Afficher les additifs                  *");
-		System.out.println("  * 4 : Afficher les allergènes                *");
-		System.out.println("  * 5 : Afficher les ingrédients               *");
-		System.out.println("  * 6 : Afficher les produits                  *");
 		System.out.println("  * Q : Quitter l'application                  *");
 		System.out.println("  *                                            *");
 		System.out.println("  **********************************************");

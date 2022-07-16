@@ -13,5 +13,7 @@ public interface IPojoDao {
 	public List<?> getList(EntityManager em);
 	
 	public void emptyTable(EntityManager em);
+	
+	public Long getElementNb(EntityManager em);
 
 }

@@ -13,6 +13,7 @@ public class AllergeneDao implements IPojoDao{
 	private final static String GET_ALL_BY_NAME_REQ = "SELECT a FROM Allergene a WHERE a.nom = :nom";
 	private final static String GET_ALL_ORDER_BY_NAME_REQ = "SELECT a FROM Allergene a ORDER BY a.nom";
 	private final static String EMPTY_ALL_TABLE_REQ = "DELETE FROM Allergene";
+	private final static String GET_ALL_ELEM_NB_REQ = "SELECT COUNT(a) FROM Allergene a";
 
 	public AllergeneDao() {}
 
@@ -46,6 +47,16 @@ public class AllergeneDao implements IPojoDao{
 	public List<Allergene> getList(EntityManager em) {
 		TypedQuery<Allergene> query = em.createQuery(GET_ALL_ORDER_BY_NAME_REQ, Allergene.class);
 		return query.getResultList();
+	}
+	
+	@Override
+	public Long getElementNb(EntityManager em) {
+		Long valToReturn = 0L;
+		em.getTransaction().begin();
+		TypedQuery<Long> query = em.createQuery(GET_ALL_ELEM_NB_REQ , Long.class);
+		valToReturn = query.getSingleResult();
+		em.getTransaction().commit();
+		return valToReturn;
 	}
 
 }
