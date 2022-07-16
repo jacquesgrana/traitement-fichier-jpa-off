@@ -1,6 +1,9 @@
 package fr.diginamic.javaFS2022.traitement_fichier_jpa_off.ihm;
 
+import java.util.List;
 import java.util.Scanner;
+
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Categorie;
 
 public class Vue {
 	private Scanner sc;
@@ -69,6 +72,16 @@ public class Vue {
 		StringBuilder builder = new StringBuilder();
 		builder.append("\n  ").append(message);
 		System.out.println(builder.toString());
+	}
+
+	public void displayCatList(List<Categorie> listCat) {
+		System.out.println("\n\n  Liste des Catégories :\n");
+		for (Categorie cat : listCat) {
+			StringBuilder builder = new StringBuilder();
+			builder.append("  ").append(cat.getNom());
+			System.out.println(builder.toString());
+		}
+		
 	}
 
 }

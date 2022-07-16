@@ -24,17 +24,29 @@ public class DbDao {
 	private List<Object> listAll = new ArrayList<>();
 	private List<Object> listIng = new ArrayList<>();
 	private List<Object> listProd = new ArrayList<>();
+	
+	private EntityManagerFactory emf;
+	private EntityManager em;
 
 	public DbDao() {
+	}
+	
+	public void init() {
+		emf = Persistence.createEntityManagerFactory("jpa_traitement_fichier");
+		em = emf.createEntityManager();
+	}
+	
+	public void close() {
+		em.close();
+		emf.close();
 	}
 
 	public Boolean populateDb(List<String> lines, Vue vue) {
 		/*
 		 * for(String line : lines) { System.out.println(line); }
 		 */
-
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpa_traitement_fichier");
-		EntityManager em = emf.createEntityManager();
+		//	EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpa_traitement_fichier");
+		//EntityManager em = emf.createEntityManager()
 		// System.out.println("connection ok : " + em);
 		CategorieDao catDao = new CategorieDao();
 		MarqueDao marqDao = new MarqueDao();
@@ -239,8 +251,8 @@ public class DbDao {
 		vue.displayMessage("Début sauvegarde après 2e boucle");
 		prodDao.addListToDb(listProd, em);
 
-		em.close();
-		emf.close();
+		//em.close();
+		//emf.close();
 		return true;
 	}
 	/*
@@ -317,6 +329,13 @@ public class DbDao {
 				+ " / ingrédients : " + listIng.size() + " / produits : " + listProd.size() + " / allergènes : "
 				+ listAll.size() + " / additifs : " + listAdd.size();*/
 		return builder.toString();
+	}
+
+	public List<Categorie> getCatList() {
+		CategorieDao catDao = new CategorieDao();
+		//System.out.println("  Connection ok" + em.toString());
+		List<Categorie> listToReturn = catDao.getList(this.em);
+		return listToReturn;
 	}
 
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Categorie;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Model;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.CsvDao;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.DbDao;
@@ -14,6 +15,9 @@ public class Controller {
 	private Vue vue;
 	private Model model;
 	
+	//DbDao dbDao;
+	
+	// TODO ajouter au lancement si la base existe et est op pour proposer un menu different
 	
 	public void init() {
 		this.model = new Model();
@@ -21,6 +25,8 @@ public class Controller {
 		this.model.init();
 		this.vue.init();
 		java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.OFF);
+		this.model.setDbDao(new DbDao());
+		this.model.getDbDao().init();
 	}
 	
 	public void run() {
@@ -36,12 +42,12 @@ public class Controller {
 				break;
 			case '0':
 				CsvDao csvDao = new CsvDao();
-				DbDao dbDao = new DbDao();
+				// TODO ajouter destruction des tables ??
 				List<String> lines;
 				try {
 					lines = csvDao.generateListFromCsv();
-					model.setIsDataLoaded(dbDao.populateDb(lines, this.vue));
-					vue.displayMessage(dbDao.getLoadReport());
+					model.setIsDataLoaded(this.model.getDbDao().populateDb(lines, this.vue));
+					vue.displayMessage(this.model.getDbDao().getLoadReport());
 					vue.waitForCToContinue();
 				} 
 				catch (IOException e) {
@@ -51,11 +57,18 @@ public class Controller {
 				// TODO appels dao des classes pojo pour peupler la bd
 				//this.model.setIsDataLoaded(true);
 				break;
+				
+			case '1':
+				//dbDao = new DbDao();
+				List<Categorie> listCat = this.model.getDbDao().getCatList();
+				this.vue.displayCatList(listCat);
+				this.vue.waitForCToContinue();
+				break;
 			}
 			
 		} while (!quit);
 		//this.vue.waitForCToContinue();
-		
+		this.model.getDbDao().close();
 		this.vue.closeScanner();
 		this.vue.displayQuitMessage();
 	}
