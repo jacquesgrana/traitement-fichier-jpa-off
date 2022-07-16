@@ -13,6 +13,7 @@ import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Categorie;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.GradeNutrition;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Ingredient;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Marque;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.PalmOilPresence;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Produit;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.ihm.Vue;
 
@@ -174,6 +175,7 @@ public class DbDao {
 			String marqString = lineDatas[1];
 			String nomString = lineDatas[2];
 			String gradeString = lineDatas[3];
+			String palmOilString = lineDatas[27];
 
 			// creer objet Produit
 			Produit produit = new Produit(nomString);
@@ -181,6 +183,12 @@ public class DbDao {
 			GradeNutrition grade = GradeNutrition.getGradeByChar(gradeString.charAt(0));
 			// System.out.println("grade : " + grade);
 			produit.setGrade(grade);
+			
+			if (palmOilString.length() > 0) { 
+				PalmOilPresence palmOil = PalmOilPresence.getOilPresenceByChar(palmOilString.charAt(0));
+				produit.setPalmOil(palmOil);
+			}
+			
 
 			// chercher objet de la bd categorie et marque
 			Categorie categorie = catDao.getByName(catString, em);

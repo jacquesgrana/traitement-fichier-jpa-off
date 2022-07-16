@@ -27,6 +27,9 @@ public class Produit {
 	@Enumerated(EnumType.STRING)
 	private GradeNutrition grade;
 	
+	@Enumerated(EnumType.STRING)
+	private PalmOilPresence palmOil;
+	
 	//categorie
 	@ManyToOne
 	private Categorie categorie;
@@ -192,6 +195,20 @@ public class Produit {
 	 */
 	public void setAllergenes(Set<Allergene> allergenes) {
 		this.allergenes = allergenes;
+	}
+
+	/**
+	 * @return the palmOil
+	 */
+	public PalmOilPresence getPalmOil() {
+		return palmOil;
+	}
+
+	/**
+	 * @param palmOil the palmOil to set
+	 */
+	public void setPalmOil(PalmOilPresence palmOil) {
+		this.palmOil = palmOil;
 	}
 
 	@Override
