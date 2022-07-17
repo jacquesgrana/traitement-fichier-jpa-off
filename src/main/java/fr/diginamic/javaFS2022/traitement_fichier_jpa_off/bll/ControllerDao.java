@@ -1,11 +1,6 @@
-package fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal;
+package fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bll;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Additif;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Allergene;
@@ -13,63 +8,65 @@ import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Categorie;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.GradeNutrition;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Ingredient;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Marque;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.ModelDao;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.PalmOilPresence;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Produit;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.AdditifDao;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.AllergeneDao;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.CategorieDao;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.IngredientDao;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.MarqueDao;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.ProduitDao;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.ihm.Vue;
 
-public class DbDao {
+public class ControllerDao {
 	
 	//private final static String EMPTY_POSSEDE_ING_TABLE_REQ = "DELETE FROM Possede_Ing";
 	//private final static String EMPTY_POSSEDE_ALL_TABLE_REQ = "DELETE FROM Possede_All";
 	//private final static String EMPTY_POSSEDE_ADD_TABLE_REQ = "DELETE FROM Possede_Add";
-
-	private List<Object> listCat = new ArrayList<>();
-	private List<Object> listMarq = new ArrayList<>();
-	private List<Object> listAdd = new ArrayList<>();
-	private List<Object> listAll = new ArrayList<>();
-	private List<Object> listIng = new ArrayList<>();
-	private List<Object> listProd = new ArrayList<>();
 	
-	private EntityManagerFactory emf;
-	private EntityManager em;
-	
-	CategorieDao catDao;
-	MarqueDao marqDao;
-	AdditifDao addDao;
-	AllergeneDao allDao;
-	IngredientDao ingDao;
-	ProduitDao prodDao;
+	private ModelDao model;
 
-	public DbDao() {
+	//private List<Object> listCat = new ArrayList<>();
+	//private List<Object> listMarq = new ArrayList<>();
+	//private List<Object> listAdd = new ArrayList<>();
+	//private List<Object> listAll = new ArrayList<>();
+	//private List<Object> listIng = new ArrayList<>();
+	//private List<Object> listProd = new ArrayList<>();
+	
+	//private EntityManagerFactory emf;
+	//private EntityManager em;
+	
+	private CategorieDao catDao;
+	private MarqueDao marqDao;
+	private AdditifDao addDao;
+	private AllergeneDao allDao;
+	private IngredientDao ingDao;
+	private ProduitDao prodDao;
+
+	public ControllerDao() {
 	}
 	
 	public void init() {
-		emf = Persistence.createEntityManagerFactory("jpa_traitement_fichier");
-		em = emf.createEntityManager();
-		this.catDao = new CategorieDao();
-		this.marqDao = new MarqueDao();
-		this.addDao = new AdditifDao();
-		this.allDao = new AllergeneDao();
-		this.ingDao = new IngredientDao();
-		this.prodDao = new ProduitDao();
+		this.model = new ModelDao();
+		this.model.init();
+		
+		catDao = new CategorieDao();
+		marqDao = new MarqueDao();
+		addDao = new AdditifDao();
+		allDao = new AllergeneDao();
+		ingDao = new IngredientDao();
+		prodDao = new ProduitDao();
 	}
 	
 	public void close() {
-		em.close();
-		emf.close();
+		this.model.getEm().close();
+		this.model.getEmf().close();
 	}
 
 	public Boolean populateDb(List<String> lines, Vue vue) {
-		/*
-		 * for(String line : lines) { System.out.println(line); }
-		 */
-		//	EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpa_traitement_fichier");
-		//EntityManager em = emf.createEntityManager()
-		// System.out.println("connection ok : " + em);
 		
-
 		// 1e boucle pour peupler Categorie Marque Ingredient Additif Allergene
-		//System.out.println("début 1e boucle");
 		vue.displayMessage("Début 1e boucle");
 		int compteur = 1;
 		for (String line : lines) {
@@ -77,24 +74,22 @@ public class DbDao {
 			builder.append("1e boucle : ligne n° : ").append(compteur);
 			vue.displayMessage(builder.toString());
 
-			// Attention avec "|" : double echappement a faire
 			String[] lineDatas = line.split("\\|");
 
 			String catString = lineDatas[0];
 			if (!catString.equals("")) {
 				Categorie cat = new Categorie(catString);
-				if (!listCat.contains(cat)) {
-					listCat.add(cat);
+				if (!this.model.getListCat().contains(cat)) {
+					this.model.getListCat().add(cat);
 				}
 			}
 
 			String marqString = lineDatas[1];
 			if (!marqString.equals("")) {
 				Marque marq = new Marque(marqString);
-				if (!listMarq.contains(marq)) {
-					listMarq.add(marq);
+				if (!this.model.getListMarq().contains(marq)) {
+					this.model.getListMarq().add(marq);
 				}
-
 			}
 
 			if (lineDatas.length >= 5) {
@@ -105,11 +100,10 @@ public class DbDao {
 						String ingName = ingDatas[i];
 						ingName = ingName.trim();
 						Ingredient ing = new Ingredient(ingName);
-						if (!listIng.contains(ing)) {
-							listIng.add(ing);
+						if (!this.model.getListIng().contains(ing)) {
+							this.model.getListIng().add(ing);
 						}
 					}
-
 				}
 			}
 
@@ -120,8 +114,8 @@ public class DbDao {
 					if (!allDatas[i].equals("")) {
 						allDatas[i] = allDatas[i].trim();
 						Allergene all = new Allergene(allDatas[i]);
-						if (!listAll.contains(all)) {
-							listAll.add(all);
+						if (!this.model.getListAll().contains(all)) {
+							this.model.getListAll().add(all);
 						}
 					}
 				}
@@ -133,8 +127,8 @@ public class DbDao {
 				for (int i = 0; i < addDatas.length; i++) {
 					if (!addDatas[i].equals("")) {
 						Additif add = new Additif(addDatas[i]);
-						if (!listAdd.contains(add)) {
-							listAdd.add(add);
+						if (!this.model.getListAdd().contains(add)) {
+							this.model.getListAdd().add(add);
 						}
 					}
 
@@ -143,46 +137,33 @@ public class DbDao {
 			compteur++;
 		}
 
-		// TODO Traiter les listes pour enlever les doublons
-		// ajouter appel d'une méthode de cette classe pour chaque liste
-
-		//System.out.println("début sauvegarde après 1e boucle");
 		vue.displayMessage("Début sauvegarde après 1e boucle");
-		catDao.addListToDb(listCat, em);
-		marqDao.addListToDb(listMarq, em);
-		addDao.addListToDb(listAdd, em);
-		allDao.addListToDb(listAll, em);
-		ingDao.addListToDb(listIng, em);
+		catDao.addListToDb(this.model.getListCat(), this.model.getEm());
+		marqDao.addListToDb(this.model.getListMarq(), this.model.getEm());
+		addDao.addListToDb(this.model.getListAdd(), this.model.getEm());
+		allDao.addListToDb(this.model.getListAll(), this.model.getEm());
+		ingDao.addListToDb(this.model.getListIng(), this.model.getEm());
 
-		// 2e boucle pour peupler produit avec appel prep stat pour recuperer les objets
-		// de la bd a partir des noms
-		// boucle sur lines
-		//System.out.println("début 2e boucle");
+		// 2e boucle pour peupler produit avec appel prep stat pour recuperer les objets de la bd a partir des noms
 		vue.displayMessage("Début 2e boucle");
-		// em.getTransaction().begin();
 		compteur = 1;
 		for (String line : lines) {
-			// extraire le nom du produit
 			StringBuilder builder = new StringBuilder();
 			builder.append("2e boucle : ligne n° : ").append(compteur);
 			vue.displayMessage(builder.toString());
-			//System.out.println(builder.toString());
 			String[] lineDatas = line.split("\\|");
-
-			// extraire categorie, marque
 
 			String catString = lineDatas[0];
 			String marqString = lineDatas[1];
 			String nomString = lineDatas[2];
 			String gradeString = lineDatas[3];
 			String palmOilString = lineDatas[27];
-
-			// creer objet Produit
+			
 			Produit produit = new Produit(nomString);
-			// extraire le grade nutriscore et obtenir valeur
+			
 			GradeNutrition grade = GradeNutrition.getGradeByChar(gradeString.charAt(0));
-			// System.out.println("grade : " + grade);
 			produit.setGrade(grade);
+			
 			PalmOilPresence palmOil;
 			if (palmOilString.length() > 0) { 
 				palmOil = PalmOilPresence.getOilPresenceByChar(palmOilString.charAt(0));
@@ -192,19 +173,11 @@ public class DbDao {
 			}
 			produit.setPalmOil(palmOil);
 
-			// chercher objet de la bd categorie et marque
-			Categorie categorie = catDao.getByName(catString, em);
+			Categorie categorie = catDao.getByName(catString, this.model.getEm());
 			produit.setCategorie(categorie);
 
-			Marque marque = marqDao.getByName(marqString, em);
+			Marque marque = marqDao.getByName(marqString, this.model.getEm());
 			produit.setMarque(marque);
-
-			// System.out.println("produit : " + produit);
-
-			// recuperer ingredients
-			// boucle sur ingredients
-			// recuperer objet ingredient de la bd
-			// ajouter ing a set des ingredients de l'objet produit
 
 			if (lineDatas.length >= 5) {
 				String ingString = lineDatas[4];
@@ -214,23 +187,12 @@ public class DbDao {
 					if (!ingDatas[i].equals("") && (null != ingDatas[i])) {
 						String ingName = ingDatas[i];
 						ingName = ingName.trim();
-						// Ingredient ing = this.getIngByName(ingName, listIng, em);
-						//Ingredient ing = ingDao.getByName(ingName, em);
-						Ingredient ing = this.getIngByName(ingName, listIng);
+						Ingredient ing = this.getIngByName(ingName, this.model.getListIng());
 						if (null != ing) {
 							produit.getIngredients().add(ing);
-							/*
-							 * StringBuilder builder2 = new StringBuilder();
-							 * builder2.append("ajoût ingrédient : ").append(ing.getNom()).
-							 * append(" / au produit : ").append(compteur);
-							 * System.out.println(builder2.toString());
-							 */
 						}
-
-						// System.out.println("ajoût ingrédient au produit : " + compteur);
 					}
 				}
-
 			}
 
 			if (lineDatas.length >= 29) {
@@ -239,8 +201,7 @@ public class DbDao {
 				for (int i = 0; i < allDatas.length; i++) {
 					if (!allDatas[i].equals("")) {
 						allDatas[i] = allDatas[i].trim();
-						//Allergene all = allDao.getByName(allDatas[i], em);
-						Allergene all = this.getAllByName(allDatas[i], listAll);
+						Allergene all = this.getAllByName(allDatas[i], this.model.getListAll());
 						if (null != all) {
 							produit.getAllergenes().add(all);
 						}
@@ -254,25 +215,29 @@ public class DbDao {
 				
 				for (int i = 0; i < addDatas.length; i++) {
 					if (!addDatas[i].equals("")) {
-						Additif add = this.getAddByName(addDatas[i], listAdd);
+						Additif add = this.getAddByName(addDatas[i], this.model.getListAdd());
 						if (null != add) {
 							produit.getAdditifs().add(add);
 						}
 					}
 				}
 			}
-
-			// idem pour allergenes et additifs
-			// enregistrer produit dans la liste des produits
-			// em.persist(produit);
-			listProd.add(produit);
+			this.model.getListProd().add(produit);
 			compteur++;
 		}
-		// em.getTransaction().commit();
+		// this.model.getEm().getTransaction().commit();
 		//System.out.println("début sauvegarde après 2e boucle");
 		vue.displayMessage("Début sauvegarde après 2e boucle");
-		prodDao.addListToDb(listProd, em);
-
+		prodDao.addListToDb(this.model.getListProd(), this.model.getEm());
+		
+		
+		// TODO mettre en place 3 procédures pour éliminier le max de doublons selon les noms 
+		// pour les tables Ingredient Additif et Allergene
+		// mettre les textes en minuscules
+		// enlever les premiers carac (si besoin) pour que le nom commence par [a-z]
+		// supprimer les doublons + correction (suppression et ajout) des tables d'associations
+		// recuperation des bons objets Produit et Ing (ou Add ou All) et suppression dans le set de Produit 
+		// de l'ancienne relation et ajout de la nouvelle objet Ing (ou Add ou All)
 		//em.close();
 		//emf.close();
 		return true;
@@ -340,57 +305,53 @@ public class DbDao {
 	 
 	public String getLoadReport() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Nb d'éléments récupérés : catégories : ").append(listCat.size());
-		builder.append(" / marques : ").append(listMarq.size());
-		builder.append(" / ingrédients : ").append(listIng.size());
-		builder.append(" / produits : ").append(listProd.size());
-		builder.append(" / allergènes : ").append(listAll.size());
-		builder.append(" / additifs : ").append(listAdd.size());
-		/*
-		return "Nb d'éléments récupérés : catégories : " + listCat.size() + " / marques : " + listMarq.size()
-				+ " / ingrédients : " + listIng.size() + " / produits : " + listProd.size() + " / allergènes : "
-				+ listAll.size() + " / additifs : " + listAdd.size();*/
+		builder.append("Nb d'éléments récupérés : catégories : ").append(this.model.getListCat().size());
+		builder.append(" / marques : ").append(this.model.getListMarq().size());
+		builder.append(" / ingrédients : ").append(this.model.getListIng().size());
+		builder.append(" / produits : ").append(this.model.getListProd().size());
+		builder.append(" / allergènes : ").append(this.model.getListAll().size());
+		builder.append(" / additifs : ").append(this.model.getListAdd().size());
 		return builder.toString();
 	}
 
 	public List<Categorie> getCatList() {
-		List<Categorie> listToReturn = this.catDao.getList(this.em);
+		List<Categorie> listToReturn = this.catDao.getList(this.model.getEm());
 		return listToReturn;
 	}
 	
 	public List<Marque> getMarqList() {
-		List<Marque> listToReturn = this.marqDao.getList(this.em);
+		List<Marque> listToReturn = this.marqDao.getList(this.model.getEm());
 		return listToReturn;
 	}
 	
 	public List<Additif> getAddList() {
-		List<Additif> listToReturn = this.addDao.getList(this.em);
+		List<Additif> listToReturn = this.addDao.getList(this.model.getEm());
 		return listToReturn;
 	}
 	
 	public List<Allergene> getAllList() {
-		List<Allergene> listToReturn = this.allDao.getList(this.em);
+		List<Allergene> listToReturn = this.allDao.getList(this.model.getEm());
 		return listToReturn;
 	}
 	
 	public List<Ingredient> getIngList() {
-		List<Ingredient> listToReturn = this.ingDao.getList(this.em);
+		List<Ingredient> listToReturn = this.ingDao.getList(this.model.getEm());
 		return listToReturn;
 	}
 	
 	public List<Produit> getProdList() {
-		List<Produit> listToReturn = this.prodDao.getList(this.em);
+		List<Produit> listToReturn = this.prodDao.getList(this.model.getEm());
 		return listToReturn;
 	}
 
 	public void emptyTables() {
 		System.out.println("  Vidage des tables");
-		this.prodDao.emptyTable(em);
-		this.catDao.emptyTable(em);
-		this.marqDao.emptyTable(em);
-		this.addDao.emptyTable(em);
-		this.allDao.emptyTable(em);
-		this.ingDao.emptyTable(em);
+		this.prodDao.emptyTable(this.model.getEm());
+		this.catDao.emptyTable(this.model.getEm());
+		this.marqDao.emptyTable(this.model.getEm());
+		this.addDao.emptyTable(this.model.getEm());
+		this.allDao.emptyTable(this.model.getEm());
+		this.ingDao.emptyTable(this.model.getEm());
 		
 		
 		// TODO vider les 3 tables d'association
@@ -407,15 +368,13 @@ public class DbDao {
 		*/
 	}
 	
-	public Boolean isTablesFull() {
-		// faire requete qui renvoie le nb d'element d'une table
-		Boolean isAddTableFull = this.addDao.getElementNb(this.em) > 0;
-		Boolean isAllTableFull = this.allDao.getElementNb(this.em) > 0;
-		Boolean isCatTableFull = this.catDao.getElementNb(this.em) > 0;
-		Boolean isIngTableFull = this.ingDao.getElementNb(this.em) > 0;
-		Boolean isMarqTableFull = this.marqDao.getElementNb(this.em) > 0;
-		Boolean isProdTableFull = this.prodDao.getElementNb(this.em) > 0;
-		// return bool1 && bool2 && ...
+	public Boolean isTablesNotEmpty() {
+		Boolean isAddTableFull = this.addDao.getElementNb(this.model.getEm()) > 0;
+		Boolean isAllTableFull = this.allDao.getElementNb(this.model.getEm()) > 0;
+		Boolean isCatTableFull = this.catDao.getElementNb(this.model.getEm()) > 0;
+		Boolean isIngTableFull = this.ingDao.getElementNb(this.model.getEm()) > 0;
+		Boolean isMarqTableFull = this.marqDao.getElementNb(this.model.getEm()) > 0;
+		Boolean isProdTableFull = this.prodDao.getElementNb(this.model.getEm()) > 0;
 		return (isAddTableFull && isAllTableFull && isCatTableFull && isIngTableFull && isMarqTableFull && isProdTableFull);
 	}
 

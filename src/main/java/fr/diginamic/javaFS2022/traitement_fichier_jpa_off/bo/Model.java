@@ -1,12 +1,12 @@
 package fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo;
 
-import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.DbDao;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bll.ControllerDao;
 
 public class Model {
 
 	private Boolean isDbFull;
 	
-	private DbDao dbDao;
+	private ControllerDao dbDao;
 	
 	public Model() {}
 	
@@ -31,14 +31,14 @@ public class Model {
 	/**
 	 * @return the dbDao
 	 */
-	public DbDao getDbDao() {
+	public ControllerDao getControllerDao() {
 		return dbDao;
 	}
 
 	/**
 	 * @param dbDao the dbDao to set
 	 */
-	public void setDbDao(DbDao dbDao) {
+	public void setControllerDao(ControllerDao dbDao) {
 		this.dbDao = dbDao;
 	}
 
