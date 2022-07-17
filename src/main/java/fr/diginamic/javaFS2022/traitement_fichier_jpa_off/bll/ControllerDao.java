@@ -11,11 +11,6 @@ import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Marque;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.ModelDao;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.PalmOilPresence;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Produit;
-import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.AdditifDao;
-import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.AllergeneDao;
-import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.CategorieDao;
-import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.IngredientDao;
-import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.MarqueDao;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.ProduitDao;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.ihm.Vue;
 
@@ -37,12 +32,12 @@ public class ControllerDao {
 	//private EntityManagerFactory emf;
 	//private EntityManager em;
 	
-	private CategorieDao catDao;
-	private MarqueDao marqDao;
-	private AdditifDao addDao;
-	private AllergeneDao allDao;
-	private IngredientDao ingDao;
-	private ProduitDao prodDao;
+	//private CategorieDao catDao;
+	//private MarqueDao marqDao;
+	//private AdditifDao addDao;
+	//private AllergeneDao allDao;
+	//private IngredientDao ingDao;
+	//private ProduitDao prodDao;
 
 	public ControllerDao() {
 	}
@@ -51,12 +46,12 @@ public class ControllerDao {
 		this.model = new ModelDao();
 		this.model.init();
 		
-		catDao = new CategorieDao();
-		marqDao = new MarqueDao();
-		addDao = new AdditifDao();
-		allDao = new AllergeneDao();
-		ingDao = new IngredientDao();
-		prodDao = new ProduitDao();
+		//catDao = new CategorieDao();
+		//marqDao = new MarqueDao();
+		//addDao = new AdditifDao();
+		//allDao = new AllergeneDao();
+		//ingDao = new IngredientDao();
+		//prodDao = new ProduitDao();
 	}
 	
 	public void close() {
@@ -138,11 +133,11 @@ public class ControllerDao {
 		}
 
 		vue.displayMessage("Début sauvegarde après 1e boucle");
-		catDao.addListToDb(this.model.getListCat(), this.model.getEm());
-		marqDao.addListToDb(this.model.getListMarq(), this.model.getEm());
-		addDao.addListToDb(this.model.getListAdd(), this.model.getEm());
-		allDao.addListToDb(this.model.getListAll(), this.model.getEm());
-		ingDao.addListToDb(this.model.getListIng(), this.model.getEm());
+		this.model.getCatDao().addListToDb(this.model.getListCat(), this.model.getEm());
+		this.model.getMarqDao().addListToDb(this.model.getListMarq(), this.model.getEm());
+		this.model.getAddDao().addListToDb(this.model.getListAdd(), this.model.getEm());
+		this.model.getAllDao().addListToDb(this.model.getListAll(), this.model.getEm());
+		this.model.getIngDao().addListToDb(this.model.getListIng(), this.model.getEm());
 
 		// 2e boucle pour peupler produit avec appel prep stat pour recuperer les objets de la bd a partir des noms
 		vue.displayMessage("Début 2e boucle");
@@ -173,10 +168,10 @@ public class ControllerDao {
 			}
 			produit.setPalmOil(palmOil);
 
-			Categorie categorie = catDao.getByName(catString, this.model.getEm());
+			Categorie categorie = this.model.getCatDao().getByName(catString, this.model.getEm());
 			produit.setCategorie(categorie);
 
-			Marque marque = marqDao.getByName(marqString, this.model.getEm());
+			Marque marque = this.model.getMarqDao().getByName(marqString, this.model.getEm());
 			produit.setMarque(marque);
 
 			if (lineDatas.length >= 5) {
@@ -228,7 +223,7 @@ public class ControllerDao {
 		// this.model.getEm().getTransaction().commit();
 		//System.out.println("début sauvegarde après 2e boucle");
 		vue.displayMessage("Début sauvegarde après 2e boucle");
-		prodDao.addListToDb(this.model.getListProd(), this.model.getEm());
+		this.model.getProdDao().addListToDb(this.model.getListProd(), this.model.getEm());
 		
 		
 		// TODO mettre en place 3 procédures pour éliminier le max de doublons selon les noms 
@@ -315,43 +310,43 @@ public class ControllerDao {
 	}
 
 	public List<Categorie> getCatList() {
-		List<Categorie> listToReturn = this.catDao.getList(this.model.getEm());
+		List<Categorie> listToReturn = this.model.getCatDao().getList(this.model.getEm());
 		return listToReturn;
 	}
 	
 	public List<Marque> getMarqList() {
-		List<Marque> listToReturn = this.marqDao.getList(this.model.getEm());
+		List<Marque> listToReturn = this.model.getMarqDao().getList(this.model.getEm());
 		return listToReturn;
 	}
 	
 	public List<Additif> getAddList() {
-		List<Additif> listToReturn = this.addDao.getList(this.model.getEm());
+		List<Additif> listToReturn = this.model.getAddDao().getList(this.model.getEm());
 		return listToReturn;
 	}
 	
 	public List<Allergene> getAllList() {
-		List<Allergene> listToReturn = this.allDao.getList(this.model.getEm());
+		List<Allergene> listToReturn = this.model.getAllDao().getList(this.model.getEm());
 		return listToReturn;
 	}
 	
 	public List<Ingredient> getIngList() {
-		List<Ingredient> listToReturn = this.ingDao.getList(this.model.getEm());
+		List<Ingredient> listToReturn = this.model.getIngDao().getList(this.model.getEm());
 		return listToReturn;
 	}
 	
 	public List<Produit> getProdList() {
-		List<Produit> listToReturn = this.prodDao.getList(this.model.getEm());
+		List<Produit> listToReturn = this.model.getProdDao().getList(this.model.getEm());
 		return listToReturn;
 	}
 
 	public void emptyTables() {
 		System.out.println("  Vidage des tables");
-		this.prodDao.emptyTable(this.model.getEm());
-		this.catDao.emptyTable(this.model.getEm());
-		this.marqDao.emptyTable(this.model.getEm());
-		this.addDao.emptyTable(this.model.getEm());
-		this.allDao.emptyTable(this.model.getEm());
-		this.ingDao.emptyTable(this.model.getEm());
+		this.model.getProdDao().emptyTable(this.model.getEm());
+		this.model.getCatDao().emptyTable(this.model.getEm());
+		this.model.getMarqDao().emptyTable(this.model.getEm());
+		this.model.getAddDao().emptyTable(this.model.getEm());
+		this.model.getAllDao().emptyTable(this.model.getEm());
+		this.model.getIngDao().emptyTable(this.model.getEm());
 		
 		
 		// TODO vider les 3 tables d'association
@@ -369,12 +364,12 @@ public class ControllerDao {
 	}
 	
 	public Boolean isTablesNotEmpty() {
-		Boolean isAddTableFull = this.addDao.getElementNb(this.model.getEm()) > 0;
-		Boolean isAllTableFull = this.allDao.getElementNb(this.model.getEm()) > 0;
-		Boolean isCatTableFull = this.catDao.getElementNb(this.model.getEm()) > 0;
-		Boolean isIngTableFull = this.ingDao.getElementNb(this.model.getEm()) > 0;
-		Boolean isMarqTableFull = this.marqDao.getElementNb(this.model.getEm()) > 0;
-		Boolean isProdTableFull = this.prodDao.getElementNb(this.model.getEm()) > 0;
+		Boolean isAddTableFull = this.model.getAddDao().getElementNb(this.model.getEm()) > 0;
+		Boolean isAllTableFull = this.model.getAllDao().getElementNb(this.model.getEm()) > 0;
+		Boolean isCatTableFull = this.model.getCatDao().getElementNb(this.model.getEm()) > 0;
+		Boolean isIngTableFull = this.model.getIngDao().getElementNb(this.model.getEm()) > 0;
+		Boolean isMarqTableFull = this.model.getMarqDao().getElementNb(this.model.getEm()) > 0;
+		Boolean isProdTableFull = this.model.getProdDao().getElementNb(this.model.getEm()) > 0;
 		return (isAddTableFull && isAllTableFull && isCatTableFull && isIngTableFull && isMarqTableFull && isProdTableFull);
 	}
 

@@ -7,6 +7,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.AdditifDao;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.AllergeneDao;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.CategorieDao;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.IngredientDao;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.MarqueDao;
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.ProduitDao;
+
 public class ModelDao {
 
 	private List<Object> listCat;
@@ -19,6 +26,13 @@ public class ModelDao {
 	private EntityManagerFactory emf;
 	private EntityManager em;
 	
+	private CategorieDao catDao;
+	private MarqueDao marqDao;
+	private AdditifDao addDao;
+	private AllergeneDao allDao;
+	private IngredientDao ingDao;
+	private ProduitDao prodDao;
+	
 	public ModelDao() {}
 
 	public void init() {
@@ -30,7 +44,12 @@ public class ModelDao {
 		this.listProd = new ArrayList<>();
 		this.emf = Persistence.createEntityManagerFactory("jpa_traitement_fichier");
 		em = this.emf.createEntityManager();
-		//em = emf.createEntityManager();
+		catDao = new CategorieDao();
+		marqDao = new MarqueDao();
+		addDao = new AdditifDao();
+		allDao = new AllergeneDao();
+		ingDao = new IngredientDao();
+		prodDao = new ProduitDao();
 	}
 
 	/**
@@ -143,6 +162,90 @@ public class ModelDao {
 	 */
 	public void setEm(EntityManager em) {
 		this.em = em;
+	}
+
+	/**
+	 * @return the catDao
+	 */
+	public CategorieDao getCatDao() {
+		return catDao;
+	}
+
+	/**
+	 * @param catDao the catDao to set
+	 */
+	public void setCatDao(CategorieDao catDao) {
+		this.catDao = catDao;
+	}
+
+	/**
+	 * @return the marqDao
+	 */
+	public MarqueDao getMarqDao() {
+		return marqDao;
+	}
+
+	/**
+	 * @param marqDao the marqDao to set
+	 */
+	public void setMarqDao(MarqueDao marqDao) {
+		this.marqDao = marqDao;
+	}
+
+	/**
+	 * @return the addDao
+	 */
+	public AdditifDao getAddDao() {
+		return addDao;
+	}
+
+	/**
+	 * @param addDao the addDao to set
+	 */
+	public void setAddDao(AdditifDao addDao) {
+		this.addDao = addDao;
+	}
+
+	/**
+	 * @return the allDao
+	 */
+	public AllergeneDao getAllDao() {
+		return allDao;
+	}
+
+	/**
+	 * @param allDao the allDao to set
+	 */
+	public void setAllDao(AllergeneDao allDao) {
+		this.allDao = allDao;
+	}
+
+	/**
+	 * @return the ingDao
+	 */
+	public IngredientDao getIngDao() {
+		return ingDao;
+	}
+
+	/**
+	 * @param ingDao the ingDao to set
+	 */
+	public void setIngDao(IngredientDao ingDao) {
+		this.ingDao = ingDao;
+	}
+
+	/**
+	 * @return the prodDao
+	 */
+	public ProduitDao getProdDao() {
+		return prodDao;
+	}
+
+	/**
+	 * @param prodDao the prodDao to set
+	 */
+	public void setProdDao(ProduitDao prodDao) {
+		this.prodDao = prodDao;
 	}
 
 }
