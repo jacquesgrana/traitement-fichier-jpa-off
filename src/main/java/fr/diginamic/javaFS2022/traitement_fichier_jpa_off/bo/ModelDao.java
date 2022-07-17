@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.AdditifDao;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.AllergeneDao;
@@ -15,6 +14,8 @@ import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.MarqueDao;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.ProduitDao;
 
 public class ModelDao {
+	
+	private final String PERSISTENCE_UNIT_NAME = "jpa_traitement_fichier";
 
 	private List<Object> listCat;
 	private List<Object> listMarq;
@@ -42,8 +43,8 @@ public class ModelDao {
 		this.listAll = new ArrayList<>();
 		this.listIng = new ArrayList<>();
 		this.listProd = new ArrayList<>();
-		this.emf = Persistence.createEntityManagerFactory("jpa_traitement_fichier");
-		em = this.emf.createEntityManager();
+		//this.emf = Persistence.createEntityManagerFactory("jpa_traitement_fichier");
+		//em = this.emf.createEntityManager();
 		catDao = new CategorieDao();
 		marqDao = new MarqueDao();
 		addDao = new AdditifDao();
@@ -247,5 +248,14 @@ public class ModelDao {
 	public void setProdDao(ProduitDao prodDao) {
 		this.prodDao = prodDao;
 	}
+
+	/**
+	 * @return the pERSISTENCE_UNIT_NAME
+	 */
+	public String getPersistUnitName() {
+		return PERSISTENCE_UNIT_NAME;
+	}
+	
+	
 
 }

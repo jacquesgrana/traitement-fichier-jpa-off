@@ -2,6 +2,8 @@ package fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bll;
 
 import java.util.List;
 
+import javax.persistence.Persistence;
+
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Additif;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Allergene;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Categorie;
@@ -11,7 +13,6 @@ import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Marque;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.ModelDao;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.PalmOilPresence;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Produit;
-import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.dal.ProduitDao;
 import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.ihm.Vue;
 
 public class ControllerDao {
@@ -22,36 +23,14 @@ public class ControllerDao {
 	
 	private ModelDao model;
 
-	//private List<Object> listCat = new ArrayList<>();
-	//private List<Object> listMarq = new ArrayList<>();
-	//private List<Object> listAdd = new ArrayList<>();
-	//private List<Object> listAll = new ArrayList<>();
-	//private List<Object> listIng = new ArrayList<>();
-	//private List<Object> listProd = new ArrayList<>();
-	
-	//private EntityManagerFactory emf;
-	//private EntityManager em;
-	
-	//private CategorieDao catDao;
-	//private MarqueDao marqDao;
-	//private AdditifDao addDao;
-	//private AllergeneDao allDao;
-	//private IngredientDao ingDao;
-	//private ProduitDao prodDao;
-
 	public ControllerDao() {
 	}
 	
 	public void init() {
 		this.model = new ModelDao();
 		this.model.init();
-		
-		//catDao = new CategorieDao();
-		//marqDao = new MarqueDao();
-		//addDao = new AdditifDao();
-		//allDao = new AllergeneDao();
-		//ingDao = new IngredientDao();
-		//prodDao = new ProduitDao();
+		this.model.setEmf(Persistence.createEntityManagerFactory(this.model.getPersistUnitName()));
+		this.model.setEm(this.model.getEmf().createEntityManager());
 	}
 	
 	public void close() {
@@ -61,7 +40,7 @@ public class ControllerDao {
 
 	public Boolean populateDb(List<String> lines, Vue vue) {
 		
-		// 1e boucle pour peupler Categorie Marque Ingredient Additif Allergene
+		// 1e boucle pour peupler les tables Categorie Marque Ingredient Additif Allergene
 		vue.displayMessage("Début 1e boucle");
 		int compteur = 1;
 		for (String line : lines) {
@@ -139,7 +118,7 @@ public class ControllerDao {
 		this.model.getAllDao().addListToDb(this.model.getListAll(), this.model.getEm());
 		this.model.getIngDao().addListToDb(this.model.getListIng(), this.model.getEm());
 
-		// 2e boucle pour peupler produit avec appel prep stat pour recuperer les objets de la bd a partir des noms
+		// 2e boucle pour peupler la table Produit avec appel a la bd pour recuperer les objets de la bd a partir des noms
 		vue.displayMessage("Début 2e boucle");
 		compteur = 1;
 		for (String line : lines) {
@@ -350,7 +329,7 @@ public class ControllerDao {
 		
 		
 		// TODO vider les 3 tables d'association
-		/*
+		/* marche pas
 		System.out.println("  Vidage des tables d'association");
 		em.getTransaction().begin();
 		Query queryIng = em.createQuery(EMPTY_POSSEDE_ING_TABLE_REQ);
