@@ -212,8 +212,27 @@ public class ControllerDao {
 		// supprimer les doublons + correction (suppression et ajout) des tables d'associations
 		// recuperation des bons objets Produit et Ing (ou Add ou All) et suppression dans le set de Produit 
 		// de l'ancienne relation et ajout de la nouvelle objet Ing (ou Add ou All)
-		//em.close();
-		//emf.close();
+		
+		// process :
+		// pour les list et tables Ingredient, Additif et Allegène
+		// faire en sorte que les noms commencent et finissent par des lettres
+		// mettre en minuscule les noms
+		// faire modifs dans la bd et la liste (merge)
+		
+		// boucle avec iterator sur la list des Ing
+			// faire requete pour obtenir les autres tuples Ing de meme nom (nom == et id !=)
+			// si resultat.size > 0
+				// boucle sur resultset avec iterator sur Ing
+					// recuperer les objets produits correspondants
+					// boucle sur produits obtenus
+						// ajout du bon objet Ing (de la 1e boucle) dans le produit de la boucle
+						// suppression de l'objet Ing (celui de la 2e boucle) dans la liste du produit de la boucle
+						// mettre a jour la liste Ing du bon produit de la liste rech par les noms
+						// merge produit de la boucle
+					// suppression de l'objet Ing de la bd
+					// idem pour la liste rech par les noms
+					
+		
 		return true;
 	}
 	/*
