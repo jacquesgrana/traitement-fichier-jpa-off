@@ -57,4 +57,5 @@ public class AdditifDao implements IPojoDao{
 		em.getTransaction().commit();
 		return valToReturn;
 	}
+
 }

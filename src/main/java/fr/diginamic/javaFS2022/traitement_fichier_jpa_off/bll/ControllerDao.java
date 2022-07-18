@@ -211,6 +211,7 @@ public class ControllerDao {
 		vue.displayMessage("Début sauvegarde après 2e boucle");
 		this.model.getProdDao().addListToDb(this.model.getListProd(), this.model.getEm());
 		
+		// TODO faire méthode qui renvoie une string commencant et finissant par des lettres en enlevant ce qui'il faut au debut et a la fin
 		
 		// TODO mettre en place 3 procédures pour éliminier le max de doublons selon les noms 
 		// pour les tables Ingredient Additif et Allergene
@@ -220,13 +221,34 @@ public class ControllerDao {
 		// recuperation des bons objets Produit et Ing (ou Add ou All) et suppression dans le set de Produit 
 		// de l'ancienne relation et ajout de la nouvelle objet Ing (ou Add ou All)
 		
+		vue.displayMessage("Traitement de la table Additif");
+		//Traitement de la table Additif
+		
+		// faire en sorte que les noms commencent et finissent par des lettres
+		this.model.getEm().getTransaction().begin();
+		for (Object obj : this.model.getListAdd()) {
+			if (obj.getClass().equals(Additif.class)) {
+				Additif add = (Additif) obj;
+				String nom = add.getNom();
+				nom = Library.trimBetter(nom);
+				nom = Library.removeFromCommaToEnd(nom);
+				nom = nom.toLowerCase();
+				add.setNom(nom);
+				model.getEm().merge(add);
+			}
+			
+		}
+		this.model.getEm().getTransaction().commit();
+		
+		
 		// process :
 		// pour les list et tables Ingredient, Additif et Allegène
-		// faire en sorte que les noms commencent et finissent par des lettres
+		
 		// mettre en minuscule les noms
 		// faire modifs dans la bd et la liste (merge)
-		
+		// faire en sorte que les noms commencent et finissent par des lettres
 		// boucle avec iterator sur la list des Ing
+		
 			// faire requete pour obtenir les autres tuples Ing de meme nom (nom == et id !=)
 			// si resultat.size > 0
 				// boucle sur resultset avec iterator sur Ing
@@ -238,8 +260,6 @@ public class ControllerDao {
 						// merge produit de la boucle
 					// suppression de l'objet Ing de la bd
 					// idem pour la liste rech par les noms
-		
-		//(mappedBy = "", cascade = CascadeType.PERSIST
 					
 		
 		return true;
@@ -354,20 +374,6 @@ public class ControllerDao {
 		this.model.getAddDao().emptyTable(this.model.getEm());
 		this.model.getAllDao().emptyTable(this.model.getEm());
 		this.model.getIngDao().emptyTable(this.model.getEm());
-		
-		
-		// TODO vider les 3 tables d'association
-		/* marche pas
-		System.out.println("  Vidage des tables d'association");
-		em.getTransaction().begin();
-		Query queryIng = em.createQuery(EMPTY_POSSEDE_ING_TABLE_REQ);
-		Query queryAll = em.createQuery(EMPTY_POSSEDE_ALL_TABLE_REQ);
-		Query queryAdd = em.createQuery(EMPTY_POSSEDE_ADD_TABLE_REQ);
-		queryIng.executeUpdate();
-		queryAll.executeUpdate();
-		queryAdd.executeUpdate();
-		em.getTransaction().commit();
-		*/
 	}
 	
 	public Boolean isTablesNotEmpty() {
