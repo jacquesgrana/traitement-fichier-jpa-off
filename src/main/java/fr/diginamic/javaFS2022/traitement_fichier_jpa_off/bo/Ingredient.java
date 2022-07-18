@@ -3,6 +3,7 @@ package fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,6 +43,16 @@ public class Ingredient {
 		else {
 			return false;
 		}
+	}
+	
+	// TODO ajouter methodes addProduit et removeProduit
+	
+	public void addProd (Produit produit) {
+		produit.addIng(this);
+	}
+	
+	public void removeProd (Produit produit) {
+		produit.removeIng(this);
 	}
 
 	/**

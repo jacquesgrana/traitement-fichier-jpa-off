@@ -43,6 +43,16 @@ public class Categorie {
 			return false;
 		}
 	}
+	
+	// TODO ajouter methodes addProduit et removeProduit
+	
+	public void addProd (Produit produit) {
+		produit.addCat(this);
+	}
+	
+	public void removeProd (Produit produit) {
+		produit.removeCat(this);
+	}
 
 	/**
 	 * @return the nom

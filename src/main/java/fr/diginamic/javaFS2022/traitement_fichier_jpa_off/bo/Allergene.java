@@ -3,6 +3,7 @@ package fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,6 +33,8 @@ public class Allergene {
 		this.nom = nom;
 	}
 	
+	// TODO ajouter methodes addProduit et removeProduit
+	
 	@Override
 	public  boolean equals(Object o) {
 		if (o.getClass().equals(Allergene.class)) {
@@ -42,6 +45,14 @@ public class Allergene {
 		else {
 			return false;
 		}
+	}
+	
+	public void addProd (Produit produit) {
+		produit.addAller(this);
+	}
+	
+	public void removeProd (Produit produit) {
+		produit.removeAller(this);
 	}
 
 	/**

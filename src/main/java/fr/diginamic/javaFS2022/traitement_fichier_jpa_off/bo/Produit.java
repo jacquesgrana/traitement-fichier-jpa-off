@@ -3,6 +3,7 @@ package fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -31,37 +32,33 @@ public class Produit {
 	private PalmOilPresence palmOil;
 	
 	//categorie
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Categorie categorie;
 	
 	//marque
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Marque marque;
 	
 	//ingredients
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="Possede_Ing",
 	joinColumns= @JoinColumn(name="id_produit", referencedColumnName="id"),
 	inverseJoinColumns= @JoinColumn(name="id_ingredient", referencedColumnName="id"))
 	private Set<Ingredient> ingredients = new HashSet<>();		
 	
 	//additifs
-	//@ManyToMany(mappedBy="produits")
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="Possede_Add",
 	joinColumns= @JoinColumn(name="id_produit", referencedColumnName="id"),
 	inverseJoinColumns= @JoinColumn(name="id_additif", referencedColumnName="id"))
 	private Set<Additif> additifs = new HashSet<>();
 	
 	//allergenes
-	//@ManyToMany(mappedBy="produits")
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="Possede_All",
 	joinColumns= @JoinColumn(name="id_produit", referencedColumnName="id"),
 	inverseJoinColumns= @JoinColumn(name="id_allergene", referencedColumnName="id"))
 	private Set<Allergene> allergenes = new HashSet<>();
-	
-	//presence huile de palme --> creer enum oui/non
 
 	public Produit() {}
 	
@@ -98,6 +95,88 @@ public class Produit {
 			return false;
 		}
 	}
+	
+	// TODO ajouter methodes addAdd et removeAdd
+	
+	public void addAdd(Additif additif) {
+		if (!this.additifs.contains(additif)) {
+			this.additifs.add(additif);
+		}
+		if (!additif.getProduits().contains(this)) {
+			additif.getProduits().add(this);
+		}
+	}
+	
+	public void removeAdd(Additif additif) {
+		if (this.additifs.contains(additif)) {
+			this.additifs.remove(additif);
+		}
+		if (additif.getProduits().contains(this)) {
+			additif.getProduits().remove(this);
+		}
+	}
+	
+	// TODO ajouter methodes addAll et removeAll
+	
+	public void addAller(Allergene allergene) {
+		if (!this.allergenes.contains(allergene)) {
+			this.allergenes.add(allergene);
+		}
+		if (!allergene.getProduits().contains(this)) {
+			allergene.getProduits().add(this);
+		}
+	}
+	
+	public void removeAller(Allergene allergene) {
+		if (this.allergenes.contains(allergene)) {
+			this.allergenes.remove(allergene);
+		}
+		if (allergene.getProduits().contains(this)) {
+			allergene.getProduits().remove(this);
+		}
+	}
+	
+	// TODO ajouter methodes addIng et removeIng
+	
+	public void addIng(Ingredient ingredient) {
+		if (!this.ingredients.contains(ingredient)) {
+			this.ingredients.add(ingredient);
+		}
+		if (!ingredient.getProduits().contains(this)) {
+			ingredient.getProduits().add(this);
+		}
+	}
+	
+	public void removeIng(Ingredient ingredient) {
+		if (this.ingredients.contains(ingredient)) {
+			this.ingredients.remove(ingredient);
+		}
+		if (ingredient.getProduits().contains(this)) {
+			ingredient.getProduits().remove(this);
+		}
+	}
+	
+	// TODO ajouter methodes addCat et removeCat
+	
+	public void addCat(Categorie categorie) {
+		if (null != this.categorie) {
+			categorie.getProduits().remove(this);
+		}
+		this.categorie = categorie;
+		if (null != this.categorie) {
+			categorie.getProduits().add(this);
+		}
+	}
+
+	public void removeCat(Categorie categorie) {
+		categorie.getProduits().remove(this);
+		this.categorie = null;
+	}
+	
+	
+
+	// TODO ajouter methodes addMarq et removeMarq
+
 
 	/**
 	 * @return the nom
@@ -227,5 +306,7 @@ public class Produit {
 		builder.append("]");
 		return builder.toString();
 	}
+
+
 
 }

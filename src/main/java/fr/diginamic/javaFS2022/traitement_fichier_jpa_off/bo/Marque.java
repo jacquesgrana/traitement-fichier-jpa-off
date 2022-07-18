@@ -45,6 +45,8 @@ public class Marque {
 		}
 	}
 
+	// TODO ajouter methodes addProduit et removeProduit
+	
 	/**
 	 * @return the nom
 	 */

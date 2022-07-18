@@ -55,6 +55,7 @@ public class ControllerDao {
 				Categorie cat = new Categorie(catString);
 				if (!this.model.getListCat().contains(cat)) {
 					this.model.getListCat().add(cat);
+					// TODO modifier
 				}
 			}
 
@@ -63,6 +64,7 @@ public class ControllerDao {
 				Marque marq = new Marque(marqString);
 				if (!this.model.getListMarq().contains(marq)) {
 					this.model.getListMarq().add(marq);
+					// modifier
 				}
 			}
 
@@ -76,6 +78,7 @@ public class ControllerDao {
 						Ingredient ing = new Ingredient(ingName);
 						if (!this.model.getListIng().contains(ing)) {
 							this.model.getListIng().add(ing);
+							// TODO modifier
 						}
 					}
 				}
@@ -90,6 +93,7 @@ public class ControllerDao {
 						Allergene all = new Allergene(allDatas[i]);
 						if (!this.model.getListAll().contains(all)) {
 							this.model.getListAll().add(all);
+							// TODO modifier
 						}
 					}
 				}
@@ -103,6 +107,7 @@ public class ControllerDao {
 						Additif add = new Additif(addDatas[i]);
 						if (!this.model.getListAdd().contains(add)) {
 							this.model.getListAdd().add(add);
+							// TODO modifier
 						}
 					}
 
@@ -164,6 +169,7 @@ public class ControllerDao {
 						Ingredient ing = this.getIngByName(ingName, this.model.getListIng());
 						if (null != ing) {
 							produit.getIngredients().add(ing);
+							// TODO modifier
 						}
 					}
 				}
@@ -178,6 +184,7 @@ public class ControllerDao {
 						Allergene all = this.getAllByName(allDatas[i], this.model.getListAll());
 						if (null != all) {
 							produit.getAllergenes().add(all);
+							// TODO modifier
 						}
 					}
 				}
@@ -192,6 +199,7 @@ public class ControllerDao {
 						Additif add = this.getAddByName(addDatas[i], this.model.getListAdd());
 						if (null != add) {
 							produit.getAdditifs().add(add);
+							// TODO modifier
 						}
 					}
 				}
@@ -231,6 +239,8 @@ public class ControllerDao {
 						// merge produit de la boucle
 					// suppression de l'objet Ing de la bd
 					// idem pour la liste rech par les noms
+		
+		//(mappedBy = "", cascade = CascadeType.PERSIST
 					
 		
 		return true;
