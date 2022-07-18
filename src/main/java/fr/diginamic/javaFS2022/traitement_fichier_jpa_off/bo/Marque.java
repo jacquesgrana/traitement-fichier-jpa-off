@@ -47,6 +47,14 @@ public class Marque {
 
 	// TODO ajouter methodes addProduit et removeProduit
 	
+	public void addProd (Produit produit) {
+		produit.addMarq(this);
+	}
+	
+	public void removeProd (Produit produit) {
+		produit.removeMarq(this);
+	}
+	
 	/**
 	 * @return the nom
 	 */

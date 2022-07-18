@@ -55,7 +55,6 @@ public class ControllerDao {
 				Categorie cat = new Categorie(catString);
 				if (!this.model.getListCat().contains(cat)) {
 					this.model.getListCat().add(cat);
-					// TODO modifier
 				}
 			}
 
@@ -64,7 +63,6 @@ public class ControllerDao {
 				Marque marq = new Marque(marqString);
 				if (!this.model.getListMarq().contains(marq)) {
 					this.model.getListMarq().add(marq);
-					// modifier
 				}
 			}
 
@@ -78,7 +76,6 @@ public class ControllerDao {
 						Ingredient ing = new Ingredient(ingName);
 						if (!this.model.getListIng().contains(ing)) {
 							this.model.getListIng().add(ing);
-							// TODO modifier
 						}
 					}
 				}
@@ -93,7 +90,6 @@ public class ControllerDao {
 						Allergene all = new Allergene(allDatas[i]);
 						if (!this.model.getListAll().contains(all)) {
 							this.model.getListAll().add(all);
-							// TODO modifier
 						}
 					}
 				}
@@ -107,7 +103,6 @@ public class ControllerDao {
 						Additif add = new Additif(addDatas[i]);
 						if (!this.model.getListAdd().contains(add)) {
 							this.model.getListAdd().add(add);
-							// TODO modifier
 						}
 					}
 
@@ -153,11 +148,13 @@ public class ControllerDao {
 			produit.setPalmOil(palmOil);
 
 			Categorie categorie = this.model.getCatDao().getByName(catString, this.model.getEm());
-			produit.setCategorie(categorie);
+			//produit.setCategorie(categorie);
+			produit.addCat(categorie);
 
 			Marque marque = this.model.getMarqDao().getByName(marqString, this.model.getEm());
-			produit.setMarque(marque);
-
+			//produit.setMarque(marque);
+			produit.addMarq(marque);
+			
 			if (lineDatas.length >= 5) {
 				String ingString = lineDatas[4];
 				String[] ingDatas = ingString.split(",");
@@ -168,7 +165,8 @@ public class ControllerDao {
 						ingName = ingName.trim();
 						Ingredient ing = this.getIngByName(ingName, this.model.getListIng());
 						if (null != ing) {
-							produit.getIngredients().add(ing);
+							//produit.getIngredients().add(ing);
+							produit.addIng(ing);
 							// TODO modifier
 						}
 					}
@@ -183,7 +181,8 @@ public class ControllerDao {
 						allDatas[i] = allDatas[i].trim();
 						Allergene all = this.getAllByName(allDatas[i], this.model.getListAll());
 						if (null != all) {
-							produit.getAllergenes().add(all);
+							//produit.getAllergenes().add(all);
+							produit.addAller(all);
 							// TODO modifier
 						}
 					}

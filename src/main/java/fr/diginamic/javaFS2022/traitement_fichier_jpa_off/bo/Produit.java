@@ -176,6 +176,21 @@ public class Produit {
 	
 
 	// TODO ajouter methodes addMarq et removeMarq
+	
+	public void addMarq(Marque marque) {
+		if (null != this.marque) {
+			marque.getProduits().remove(this);
+		}
+		this.marque = marque;
+		if (null != this.marque) {
+			marque.getProduits().add(this);
+		}
+	}
+
+	public void removeMarq(Marque marque) {
+		marque.getProduits().remove(this);
+		this.marque = null;
+	}
 
 
 	/**
