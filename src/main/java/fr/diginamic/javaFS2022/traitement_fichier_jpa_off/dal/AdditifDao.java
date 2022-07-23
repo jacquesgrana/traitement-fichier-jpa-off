@@ -14,14 +14,16 @@ public class AdditifDao implements IPojoDao{
 	private final static String GET_ADD_ORDER_BY_NAME_REQ = "SELECT a FROM Additif a ORDER BY a.nom";
 	private final static String EMPTY_ADD_TABLE_REQ = "DELETE FROM Additif";
 	private final static String GET_ADD_ELEM_NB_REQ = "SELECT COUNT(a) FROM Additif a";
+	private final static String GET_ADD_DUPL_BY_NAME_AND_ID = "SELECT a FROM Additif a WHERE a.nom = :nom AND a.id <> :id";
+	
 
 	public AdditifDao() {}
 	
-	@Override
-	public void addListToDb(List<Object> listToAdd, EntityManager em) {
+	//@Override
+	public void addListToDb(List<Additif> listToAdd, EntityManager em) {
 		em.getTransaction().begin();
-		for(Object object : listToAdd) {
-			Additif elem = (Additif) object;
+		for(Additif elem : listToAdd) {
+			//Additif elem = (Additif) object;
 			em.persist(elem);
 		}
 		em.getTransaction().commit();
@@ -56,6 +58,14 @@ public class AdditifDao implements IPojoDao{
 		valToReturn = query.getSingleResult();
 		em.getTransaction().commit();
 		return valToReturn;
+	}
+
+	public List<Additif> getDuplicate(Additif goodAdd, EntityManager em) {
+		TypedQuery<Additif> query = em.createQuery(GET_ADD_DUPL_BY_NAME_AND_ID, Additif.class);
+    	query.setParameter("nom", goodAdd.getNom());
+    	query.setParameter("id", goodAdd.getId());
+    	List<Additif> categories = query.getResultList();
+		return categories;
 	}
 
 }

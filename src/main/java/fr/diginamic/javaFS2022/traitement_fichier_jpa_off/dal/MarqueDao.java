@@ -17,7 +17,7 @@ public class MarqueDao implements IPojoDao{
 
 	public MarqueDao() {}
 	
-	@Override
+
 	public void addListToDb(List<Object> listToAdd, EntityManager em) {
 		em.getTransaction().begin();
 		for(Object object : listToAdd) {

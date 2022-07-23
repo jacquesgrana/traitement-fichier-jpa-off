@@ -4,9 +4,11 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bo.Additif;
+
 public interface IPojoDao {
 	
-	public void addListToDb(List<Object> listToAdd, EntityManager em);
+	//public void addListToDb(List<?> listToAdd, EntityManager em);
 	
 	public Object getByName(String nom, EntityManager em);
 	
@@ -15,5 +17,7 @@ public interface IPojoDao {
 	public void emptyTable(EntityManager em);
 	
 	public Long getElementNb(EntityManager em);
+
+	//void addListToDb(List<Additif> listToAdd, EntityManager em);
 
 }

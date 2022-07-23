@@ -17,7 +17,7 @@ public class AllergeneDao implements IPojoDao{
 
 	public AllergeneDao() {}
 
-	@Override
+
 	public void addListToDb(List<Object> listToAdd, EntityManager em) {
 		em.getTransaction().begin();
 		for(Object object : listToAdd) {

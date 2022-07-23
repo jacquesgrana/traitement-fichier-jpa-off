@@ -17,7 +17,7 @@ public class CategorieDao implements IPojoDao{
 
 	public CategorieDao() {}
 
-	@Override
+
 	public void addListToDb(List<Object> listToAdd, EntityManager em) {
 		em.getTransaction().begin();
 		for(Object object : listToAdd) {

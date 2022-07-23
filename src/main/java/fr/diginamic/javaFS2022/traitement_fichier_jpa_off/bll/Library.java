@@ -20,5 +20,13 @@ public class Library {
 		}
 		return string;
 	}
+	
+	public static String stringProcess(String string) {
+		String toReturn = Library.trimBetter(string);
+		toReturn = toReturn.toLowerCase();
+		toReturn = Library.removeFromCommaToEnd(toReturn);
+		toReturn = StringUtils.strip(string, " _*");
+		return toReturn;
+	}
 
 }

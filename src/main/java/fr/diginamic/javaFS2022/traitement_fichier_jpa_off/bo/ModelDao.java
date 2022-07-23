@@ -19,7 +19,7 @@ public class ModelDao {
 
 	private List<Object> listCat;
 	private List<Object> listMarq;
-	private List<Object> listAdd;
+	private List<Additif> listAdd;
 	private List<Object> listAll;
 	private List<Object> listIng;
 	private List<Object> listProd;
@@ -84,14 +84,14 @@ public class ModelDao {
 	/**
 	 * @return the listAdd
 	 */
-	public List<Object> getListAdd() {
+	public List<Additif> getListAdd() {
 		return listAdd;
 	}
 
 	/**
 	 * @param listAdd the listAdd to set
 	 */
-	public void setListAdd(List<Object> listAdd) {
+	public void setListAdd(List<Additif> listAdd) {
 		this.listAdd = listAdd;
 	}
 

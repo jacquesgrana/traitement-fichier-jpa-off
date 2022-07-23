@@ -17,7 +17,7 @@ public class IngredientDao implements IPojoDao {
 
 	public IngredientDao() {}
 	
-	@Override
+
 	public void addListToDb(List<Object> listToAdd, EntityManager em) {
 		em.getTransaction().begin();
 		for(Object object : listToAdd) {
