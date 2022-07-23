@@ -1,10 +1,7 @@
 package fr.diginamic.javaFS2022.traitement_fichier_jpa_off.bll;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+
 import java.util.List;
-import java.util.ListIterator;
-import java.util.Set;
 
 import javax.persistence.Persistence;
 

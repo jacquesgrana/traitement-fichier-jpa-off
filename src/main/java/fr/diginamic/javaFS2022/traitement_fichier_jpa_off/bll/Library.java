@@ -7,9 +7,6 @@ public class Library {
 	@SuppressWarnings("unused")
 	public static String trimBetter(String string) {
 		String result = StringUtils.strip(string, "' %-+"); // 1e strip(string, "' %1234567890-+")
-		// si nom commence par Exxx ou Exxxx
-			// rien
-		// sinon strip(string, "1234567890")
 		return result;
 	}
 
@@ -23,9 +20,9 @@ public class Library {
 	
 	public static String stringProcess(String string) {
 		String toReturn = Library.trimBetter(string);
-		toReturn = toReturn.toLowerCase();
 		toReturn = Library.removeFromCommaToEnd(toReturn);
-		toReturn = StringUtils.strip(string, " _*");
+		toReturn = StringUtils.strip(toReturn, " _*");
+		toReturn = toReturn.toLowerCase();
 		return toReturn;
 	}
 
