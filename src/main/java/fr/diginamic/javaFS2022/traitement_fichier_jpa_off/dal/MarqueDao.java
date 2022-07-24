@@ -17,12 +17,14 @@ public class MarqueDao implements IPojoDao{
 
 	public MarqueDao() {}
 	
-
-	public void addListToDb(List<Object> listToAdd, EntityManager em) {
+	@Override
+	public void addListToDb(List<?> listToAdd, EntityManager em) {
 		em.getTransaction().begin();
 		for(Object object : listToAdd) {
-			Marque elem = (Marque) object;
-			em.persist(elem);
+			if(object.getClass().equals(Marque.class)) {
+				Marque elem = (Marque) object;
+				em.persist(elem);
+			}
 		}
 		em.getTransaction().commit();
 	}

@@ -18,11 +18,13 @@ public class ProduitDao implements IPojoDao {
 	public ProduitDao() {}
 	
 
-	public void addListToDb(List<Object> listToAdd, EntityManager em) {
+	public void addListToDb(List<?> listToAdd, EntityManager em) {
 		em.getTransaction().begin();
 		for(Object object : listToAdd) {
-			Produit elem = (Produit) object;
-			em.persist(elem);
+			if(object.getClass().equals(Produit.class)) {
+				Produit elem = (Produit) object;
+				em.persist(elem);
+			}
 		}
 		em.getTransaction().commit();
 	}

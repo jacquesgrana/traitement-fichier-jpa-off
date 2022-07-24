@@ -17,15 +17,17 @@ public class IngredientDao implements IPojoDao {
 
 	public IngredientDao() {}
 	
-
-	public void addListToDb(List<Object> listToAdd, EntityManager em) {
+	@Override
+	public void addListToDb(List<?> listToAdd, EntityManager em) {
 		em.getTransaction().begin();
 		for(Object object : listToAdd) {
-			Ingredient elem = (Ingredient) object;
-			if(elem.getNom().length() > 255) {
-				elem.setNom(elem.getNom().substring(0, 255));
+			if(object.getClass().equals(Ingredient.class)) {
+				Ingredient elem = (Ingredient) object;
+				if(elem.getNom().length() > 255) {
+					elem.setNom(elem.getNom().substring(0, 255));
+				}
+				em.persist(elem);
 			}
-			em.persist(elem);
 		}
 		em.getTransaction().commit();
 	}

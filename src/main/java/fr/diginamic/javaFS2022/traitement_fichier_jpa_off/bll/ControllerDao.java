@@ -18,13 +18,6 @@ import fr.diginamic.javaFS2022.traitement_fichier_jpa_off.ihm.Vue;
 
 public class ControllerDao {
 
-	// private final static String EMPTY_POSSEDE_ING_TABLE_REQ = "DELETE FROM
-	// Possede_Ing";
-	// private final static String EMPTY_POSSEDE_ALL_TABLE_REQ = "DELETE FROM
-	// Possede_All";
-	// private final static String EMPTY_POSSEDE_ADD_TABLE_REQ = "DELETE FROM
-	// Possede_Add";
-
 	private ModelDao model;
 
 	public ControllerDao() {
@@ -57,6 +50,7 @@ public class ControllerDao {
 
 			String catString = lineDatas[0];
 			if (!catString.equals("")) {
+				catString = Library.stringProcess(catString);
 				Categorie cat = new Categorie(catString);
 				if (!this.model.getListCat().contains(cat)) {
 					this.model.getListCat().add(cat);
@@ -65,21 +59,19 @@ public class ControllerDao {
 
 			String marqString = lineDatas[1];
 			if (!marqString.equals("")) {
+				marqString = Library.stringProcess(marqString);
 				Marque marq = new Marque(marqString);
 				if (!this.model.getListMarq().contains(marq)) {
 					this.model.getListMarq().add(marq);
 				}
 			}
 
-			// TODO modifier : traiter les doublons ici !!
 			if (lineDatas.length >= 5) {
 				String ingString = lineDatas[4];
 				String[] ingDatas = ingString.split(",");
 				for (int i = 0; i < ingDatas.length; i++) {
 					if (!ingDatas[i].equals("")) {
 						String ingName = ingDatas[i];
-						// TODO modifier ici !!
-						//ingName = ingName.trim();
 						ingName = Library.stringProcess(ingName);
 						Ingredient ing = new Ingredient(ingName);
 						if (!this.model.getListIng().contains(ing)) {
@@ -94,10 +86,8 @@ public class ControllerDao {
 				String[] allDatas = allString.split(",");
 				for (int i = 0; i < allDatas.length; i++) {
 					if (!allDatas[i].equals("")) {
-						//allDatas[i] = allDatas[i].trim();
 						String allName = allDatas[i];
 						allName = Library.stringProcess(allName);
-						//allDatas[i] = Library.stringProcess(allDatas[i]);
 						Allergene all = new Allergene(allName);
 						if (!this.model.getListAll().contains(all)) {
 							this.model.getListAll().add(all);
@@ -113,7 +103,6 @@ public class ControllerDao {
 					if (!addDatas[i].equals("")) {
 						String addName = addDatas[i];
 						addName = Library.stringProcess(addName);
-						//addDatas[i] = Library.stringProcess(addDatas[i]);
 						Additif add = new Additif(addName);
 						if (!this.model.getListAdd().contains(add)) {
 							this.model.getListAdd().add(add);
@@ -160,13 +149,13 @@ public class ControllerDao {
 				palmOil = PalmOilPresence.NSP;
 			}
 			produit.setPalmOil(palmOil);
-
+			
+			catString = Library.stringProcess(catString);
 			Categorie categorie = this.model.getCatDao().getByName(catString, this.model.getEm());
-			// produit.setCategorie(categorie);
 			produit.addCat(categorie);
 
+			marqString = Library.stringProcess(marqString);
 			Marque marque = this.model.getMarqDao().getByName(marqString, this.model.getEm());
-			// produit.setMarque(marque);
 			produit.addMarq(marque);
 
 			if (lineDatas.length >= 5) {
@@ -177,12 +166,9 @@ public class ControllerDao {
 					if (!ingDatas[i].equals("") && (null != ingDatas[i])) {
 						String ingName = ingDatas[i];
 						ingName = Library.stringProcess(ingName);
-						//ingName = ingName.trim();
 						Ingredient ing = this.getIngByName(ingName, this.model.getListIng());
 						if (null != ing) {
-							// produit.getIngredients().add(ing);
 							produit.addIng(ing);
-							// TODO modifier
 						}
 					}
 				}
@@ -193,13 +179,11 @@ public class ControllerDao {
 				String[] allDatas = allString.split(",");
 				for (int i = 0; i < allDatas.length; i++) {
 					if (!allDatas[i].equals("")) {
-						//allDatas[i] = allDatas[i].trim();
 						String allName = allDatas[i];
 						allName = Library.stringProcess(allName);
 						Allergene all = this.getAllByName(allName, this.model.getListAll());
 						if (null != all) {
 							produit.addAller(all);
-							// TODO modifier
 						}
 					}
 				}
@@ -230,17 +214,6 @@ public class ControllerDao {
 
 		return true;
 	}
-	/*
-	 * private Categorie getCatByName(String catName, List<Object> list) { Categorie
-	 * categorie = new Categorie(catName); for(Object object : list) { Categorie cat
-	 * = (Categorie) object; if(cat.equals(categorie)) { return cat; } } return
-	 * null; }
-	 */
-	/*
-	 * private Marque getMarqByName(String marqName, List<Object> list) { Marque
-	 * marque = new Marque(marqName); for(Object object : list) { Marque marq =
-	 * (Marque) object; if(marq.equals(marque)) { return marq; } } return null; }
-	 */
 
 	private Ingredient getIngByName(String ingName, List<Object> list) {
 		Ingredient ingredient = new Ingredient(ingName);

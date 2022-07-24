@@ -19,7 +19,6 @@ public class Allergene {
 	@Column(nullable = false)
 	private String nom;
 	
-	//produits
 	@ManyToMany(mappedBy="allergenes")
 	private Set<Produit> produits = new HashSet<>();
 
@@ -31,8 +30,6 @@ public class Allergene {
 	public Allergene(String nom) {
 		this.nom = nom;
 	}
-	
-	// TODO ajouter methodes addProduit et removeProduit
 	
 	@Override
 	public  boolean equals(Object o) {

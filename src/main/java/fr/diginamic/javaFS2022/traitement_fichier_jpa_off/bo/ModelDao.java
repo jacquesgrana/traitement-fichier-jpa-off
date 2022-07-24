@@ -43,8 +43,6 @@ public class ModelDao {
 		this.listAll = new ArrayList<>();
 		this.listIng = new ArrayList<>();
 		this.listProd = new ArrayList<>();
-		//this.emf = Persistence.createEntityManagerFactory("jpa_traitement_fichier");
-		//em = this.emf.createEntityManager();
 		catDao = new CategorieDao();
 		marqDao = new MarqueDao();
 		addDao = new AdditifDao();

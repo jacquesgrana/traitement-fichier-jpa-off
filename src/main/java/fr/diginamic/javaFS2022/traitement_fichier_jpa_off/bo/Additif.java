@@ -19,7 +19,6 @@ public class Additif {
 	@Column(nullable = false)
 	private String nom;
 	
-	//produits
 	@ManyToMany(mappedBy="additifs")
 	private Set<Produit> produits = new HashSet<>();
 
@@ -31,8 +30,6 @@ public class Additif {
 	public Additif(String nom) {
 		this.nom = nom;
 	}
-	
-	// TODO ajouter methodes addProduit et removeProduit
 	
 	public void addProd (Produit produit) {
 		produit.addAdd(this);

@@ -18,11 +18,14 @@ public class CategorieDao implements IPojoDao{
 	public CategorieDao() {}
 
 
-	public void addListToDb(List<Object> listToAdd, EntityManager em) {
+	@Override
+	public void addListToDb(List<?> listToAdd, EntityManager em) {
 		em.getTransaction().begin();
 		for(Object object : listToAdd) {
-			Categorie elem = (Categorie) object;
-			em.persist(elem);
+			if(object.getClass().equals(Categorie.class)) {
+				Categorie elem = (Categorie) object;
+				em.persist(elem);
+			}
 		}
 		em.getTransaction().commit();
 	}

@@ -19,9 +19,6 @@ public class Controller {
 	private Vue vue;
 	private Model model;
 	
-	// TODO ajouter 3e categorie dans enum huiledepalme : "NSP"
-	// TODO modifier dbDao 2e boucle pour mettre NSP qd pas renseigné
-	
 	public void init() {
 		java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.OFF);
 		this.model = new Model();
@@ -31,9 +28,6 @@ public class Controller {
 		this.model.setControllerDao(new ControllerDao());
 		this.model.getControllerDao().init();
 		this.model.setIsDataLoaded(this.model.getControllerDao().isTablesNotEmpty());
-		//System.out.println("booléen : " + this.model.getIsDataLoaded());
-		//this.vue.waitForCToContinue();
-		// TODO ajouter appel methode de dbDao qui set le booleen isFilesLoaded selon si la base est pleine ou pas
 	}
 	
 	public void run() {
@@ -49,7 +43,6 @@ public class Controller {
 				break;
 			case '0':
 				CsvDao csvDao = new CsvDao();
-				// TODO ajouter vidage des tables : 
 				this.model.getControllerDao().emptyTables();
 				List<String> lines;
 				try {
@@ -60,13 +53,11 @@ public class Controller {
 				} 
 				catch (IOException e) {
 					this.vue.displayMessage("Problème sur le chargement du fichier csv : " + e.getMessage());
-					//System.out.println("Problème sur le chargement du fichier csv : " + e.getMessage());
 					model.setIsDataLoaded(false);
 				}
 				break;
 				
 			case '1':
-				//dbDao = new DbDao();
 				if (this.model.getIsDataLoaded()) {
 					List<Categorie> listCat = this.model.getControllerDao().getCatList();
 					this.vue.displayCatList(listCat);
@@ -112,7 +103,6 @@ public class Controller {
 			}
 			
 		} while (!quit);
-		//this.vue.waitForCToContinue();
 		this.model.getControllerDao().close();
 		this.vue.closeScanner();
 		this.vue.displayQuitMessage();

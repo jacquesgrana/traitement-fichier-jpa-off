@@ -31,29 +31,24 @@ public class Produit {
 	@Enumerated(EnumType.STRING)
 	private PalmOilPresence palmOil;
 	
-	//categorie
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Categorie categorie;
 	
-	//marque
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Marque marque;
 	
-	//ingredients
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="Possede_Ing",
 	joinColumns= @JoinColumn(name="id_produit", referencedColumnName="id"),
 	inverseJoinColumns= @JoinColumn(name="id_ingredient", referencedColumnName="id"))
 	private Set<Ingredient> ingredients = new HashSet<>();		
 	
-	//additifs
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="Possede_Add",
 	joinColumns= @JoinColumn(name="id_produit", referencedColumnName="id"),
 	inverseJoinColumns= @JoinColumn(name="id_additif", referencedColumnName="id"))
 	private Set<Additif> additifs = new HashSet<>();
 	
-	//allergenes
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="Possede_All",
 	joinColumns= @JoinColumn(name="id_produit", referencedColumnName="id"),
@@ -96,8 +91,6 @@ public class Produit {
 		}
 	}
 	
-	// TODO ajouter methodes addAdd et removeAdd
-	
 	public void addAdd(Additif additif) {
 		if (!this.additifs.contains(additif)) {
 			this.additifs.add(additif);
@@ -115,8 +108,6 @@ public class Produit {
 			additif.getProduits().remove(this);
 		}
 	}
-	
-	// TODO ajouter methodes addAll et removeAll
 	
 	public void addAller(Allergene allergene) {
 		if (!this.allergenes.contains(allergene)) {
@@ -172,10 +163,6 @@ public class Produit {
 		categorie.getProduits().remove(this);
 		this.categorie = null;
 	}
-	
-	
-
-	// TODO ajouter methodes addMarq et removeMarq
 	
 	public void addMarq(Marque marque) {
 		if (null != this.marque) {

@@ -19,12 +19,14 @@ public class AdditifDao implements IPojoDao{
 
 	public AdditifDao() {}
 	
-	//@Override
-	public void addListToDb(List<Additif> listToAdd, EntityManager em) {
+	@Override
+	public void addListToDb(List<?> listToAdd, EntityManager em) {
 		em.getTransaction().begin();
-		for(Additif elem : listToAdd) {
-			//Additif elem = (Additif) object;
-			em.persist(elem);
+		for(Object object : listToAdd) {
+			if(object.getClass().equals(Additif.class)) {
+				Additif elem = (Additif) object;
+				em.persist(elem);
+			}
 		}
 		em.getTransaction().commit();
 	}

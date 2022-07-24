@@ -4,9 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 
 public class Library {
 
-	@SuppressWarnings("unused")
 	public static String trimBetter(String string) {
-		String result = StringUtils.strip(string, "' %-+"); // 1e strip(string, "' %1234567890-+")
+		String result = StringUtils.strip(string, "' %-+");
 		return result;
 	}
 

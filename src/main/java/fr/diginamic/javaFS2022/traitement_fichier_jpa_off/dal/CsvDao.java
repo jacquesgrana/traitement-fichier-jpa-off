@@ -17,11 +17,9 @@ public class CsvDao {
 		boolean isReadable = Files.isReadable(path);
 		boolean isFileExists = Files.exists(path);
 		if(!isFileExists || !isFile || !isReadable) {
-			//System.out.println("Fichier csv ko");
 			return null;
 		}
 		else {
-			//System.out.println("Fichier csv prêt");
 			List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
 			lines.remove(0);
 			return lines;

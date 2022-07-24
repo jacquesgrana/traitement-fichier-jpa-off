@@ -19,7 +19,6 @@ public class Ingredient {
 	@Column(nullable = false)
 	private String nom;
 	
-	//produits
 	@ManyToMany(mappedBy="ingredients")
 	private Set<Produit> produits = new HashSet<>();
 
@@ -43,8 +42,6 @@ public class Ingredient {
 			return false;
 		}
 	}
-	
-	// TODO ajouter methodes addProduit et removeProduit
 	
 	public void addProd (Produit produit) {
 		produit.addIng(this);

@@ -17,12 +17,14 @@ public class AllergeneDao implements IPojoDao{
 
 	public AllergeneDao() {}
 
-
-	public void addListToDb(List<Object> listToAdd, EntityManager em) {
+	@Override
+	public void addListToDb(List<?> listToAdd, EntityManager em) {
 		em.getTransaction().begin();
 		for(Object object : listToAdd) {
-			Allergene elem = (Allergene) object;
-			em.persist(elem);
+			if(object.getClass().equals(Allergene.class)) {
+				Allergene elem = (Allergene) object;
+				em.persist(elem);
+			}
 		}
 		em.getTransaction().commit();
 	}

@@ -19,7 +19,6 @@ public class Marque {
 	@Column(nullable = false)
 	private String nom;
 
-	// produits
 	@OneToMany(mappedBy = "marque")
 	private Set<Produit> produits = new HashSet<>();
 
@@ -44,8 +43,6 @@ public class Marque {
 			return false;
 		}
 	}
-
-	// TODO ajouter methodes addProduit et removeProduit
 	
 	public void addProd (Produit produit) {
 		produit.addMarq(this);

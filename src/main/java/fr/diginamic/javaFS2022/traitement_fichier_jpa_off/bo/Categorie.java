@@ -44,8 +44,6 @@ public class Categorie {
 		}
 	}
 	
-	// TODO ajouter methodes addProduit et removeProduit
-	
 	public void addProd (Produit produit) {
 		produit.addCat(this);
 	}
